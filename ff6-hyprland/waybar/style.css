@@ -1,0 +1,320 @@
+/* Waybar Style Configuration
+ * Theme: Final Fantasy VI Menu Style
+ * Created: April 2025
+ */
+
+/* Global styling */
+* {
+    font-family: "JetBrains Mono Nerd Font", "Victor Mono", "Fantastique Sans Mono Nerd Font";
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Both bars styling - FF6 blue gradient with white border */
+#waybar {
+    background: rgba(16, 32, 128, 0.8);
+    color: #ffffff;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.7), rgba(16, 32, 128, 0.7));
+}
+
+/* Top bar specific styling */
+#waybar.top {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+/* Bottom bar specific styling */
+#waybar.bottom {
+    border-top: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+/* Modules styling */
+#custom-archlogo,
+#custom-launcher,
+#custom-terminal,
+#custom-filemanager,
+#custom-browser,
+#custom-theme-switcher,
+#custom-wallpaper-menu,
+#custom-power,
+#custom-updates,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#pulseaudio,
+#network,
+#tray,
+#workspaces,
+#window,
+#taskbar {
+    background: transparent;
+    padding: 0 10px;
+    margin: 3px 0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Left modules styling */
+#custom-archlogo,
+#custom-launcher,
+#custom-terminal,
+#custom-filemanager,
+#custom-browser,
+#custom-theme-switcher,
+#custom-wallpaper-menu {
+    color: #ffffff;
+    margin-right: 5px;
+}
+
+#custom-archlogo {
+    color: #ffffff;
+    font-size: 18px;
+    margin-left: 5px;
+    padding-right: 5px;
+}
+
+#custom-terminal,
+#custom-filemanager,
+#custom-browser,
+#custom-theme-switcher,
+#custom-wallpaper-menu {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+/* Taskbar styling */
+#taskbar {
+    margin-left: 5px;
+}
+
+#taskbar button {
+    padding: 0 5px;
+    margin: 0 2px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+#taskbar button.active {
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.8), rgba(32, 80, 192, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+#taskbar button:hover {
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Collapsible menu behavior */
+#custom-terminal,
+#custom-filemanager,
+#custom-browser,
+#custom-theme-switcher {
+    opacity: 0;
+    margin-left: -10px;
+    transition: all 0.3s ease;
+}
+
+#waybar:hover #custom-terminal,
+#waybar:hover #custom-filemanager,
+#waybar:hover #custom-browser,
+#waybar:hover #custom-theme-switcher {
+    opacity: 1;
+    margin-left: 0;
+}
+
+/* Right modules styling */
+#cpu,
+#memory,
+#temperature,
+#battery,
+#pulseaudio,
+#network,
+#custom-updates {
+    margin-left: 5px;
+}
+
+#custom-power {
+    color: #ffffff;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+/* Center modules styling */
+#clock {
+    color: #ffffff;
+    font-size: 16px;
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.4), rgba(32, 80, 192, 0.4));
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 0 15px;
+}
+
+#window {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+/* Workspaces styling */
+#workspaces {
+    margin-left: 5px;
+}
+
+#workspaces button {
+    color: #aaaaaa;
+    background: transparent;
+    border-radius: 10px;
+    min-width: 30px;
+    transition: all 0.3s ease;
+    padding: 0 5px;
+}
+
+#workspaces button.active {
+    color: #ffffff;
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.8), rgba(32, 80, 192, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+#workspaces button:hover {
+    color: #ffffff;
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* System modules styling */
+#cpu {
+    color: #ffffff;
+}
+
+#memory {
+    color: #ffffff;
+}
+
+#temperature {
+    color: #ffffff;
+}
+
+#temperature.critical {
+    color: #ff0000;
+    animation: blink 1s infinite;
+}
+
+#battery {
+    color: #ffffff;
+}
+
+#battery.warning {
+    color: #ffaa00;
+}
+
+#battery.critical {
+    color: #ff0000;
+    animation: blink 1s infinite;
+}
+
+#pulseaudio {
+    color: #ffffff;
+}
+
+#network {
+    color: #ffffff;
+}
+
+#custom-updates {
+    color: #ffffff;
+}
+
+/* Tray styling */
+#tray {
+    margin-left: 5px;
+}
+
+#tray menu {
+    background: rgba(16, 32, 128, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+}
+
+/* Hover effects */
+#custom-archlogo:hover,
+#custom-launcher:hover,
+#custom-terminal:hover,
+#custom-filemanager:hover,
+#custom-browser:hover,
+#custom-theme-switcher:hover,
+#custom-wallpaper-menu:hover,
+#custom-power:hover,
+#custom-updates:hover {
+    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive design for different resolutions */
+@media (min-width: 1920px) {
+    * {
+        font-size: 16px;
+    }
+    
+    #custom-archlogo {
+        font-size: 20px;
+    }
+    
+    #custom-terminal,
+    #custom-filemanager,
+    #custom-browser,
+    #custom-theme-switcher,
+    #custom-wallpaper-menu,
+    #custom-power {
+        font-size: 18px;
+    }
+    
+    #clock {
+        font-size: 18px;
+    }
+    
+    #waybar {
+        height: 36px;
+    }
+}
+
+@media (min-width: 3840px) {
+    * {
+        font-size: 20px;
+    }
+    
+    #custom-archlogo {
+        font-size: 24px;
+    }
+    
+    #custom-terminal,
+    #custom-filemanager,
+    #custom-browser,
+    #custom-theme-switcher,
+    #custom-wallpaper-menu,
+    #custom-power {
+        font-size: 22px;
+    }
+    
+    #clock {
+        font-size: 22px;
+    }
+    
+    #waybar {
+        height: 42px;
+    }
+}
+
+/* Animations */
+@keyframes blink {
+    to {
+        opacity: 0.5;
+    }
+}

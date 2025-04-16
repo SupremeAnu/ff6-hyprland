@@ -1,0 +1,46 @@
+{
+    "sound": {
+        "enabled": true,
+        "cursor": "~/.config/hypr/sounds/cursor.wav",
+        "confirm": "~/.config/hypr/sounds/confirm.wav"
+    },
+    "layer": "overlay",
+    "position": "top-right",
+    "width": 300,
+    "height": 100,
+    "margin": 10,
+    "padding": 10,
+    "border-radius": 10,
+    "border-size": 2,
+    "border-color": "#FFFFFF",
+    "background-color": "#102080EE",
+    "text-color": "#FFFFFF",
+    "progress-color": "#4080FF",
+    "max-visible": 5,
+    "sort-by-time": true,
+    "on-button-left": "dismiss",
+    "on-button-middle": "dismiss-all",
+    "on-button-right": "action",
+    "on-touch": "dismiss",
+    "on-notify": "sound",
+    "notification-window": {
+        "border-radius": 10,
+        "border-size": 2,
+        "border-color": "#FFFFFF",
+        "background-color": "#102080EE",
+        "text-color": "#FFFFFF",
+        "progress-color": "#4080FF",
+        "padding": 10,
+        "margin": 10
+    },
+    "notification-center": {
+        "border-radius": 10,
+        "border-size": 2,
+        "border-color": "#FFFFFF",
+        "background-color": "#102080EE",
+        "text-color": "#FFFFFF",
+        "progress-color": "#4080FF",
+        "padding": 10,
+        "margin": 10
+    }
+}
