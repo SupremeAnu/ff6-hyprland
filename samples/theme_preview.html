@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FF6 Menu Style Theme Preview</title>
+    <style>
+        body {
+            background-color: #102080;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .window {
+            border: 2px solid white;
+            border-radius: 10px;
+            background: linear-gradient(60deg, rgba(64, 128, 255, 0.7), rgba(16, 32, 128, 0.7));
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        .window-title {
+            border-bottom: 1px solid white;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .waybar {
+            display: flex;
+            justify-content: space-between;
+            border: 2px solid white;
+            border-radius: 10px;
+            background: linear-gradient(60deg, rgba(64, 128, 255, 0.7), rgba(16, 32, 128, 0.7));
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .waybar-left, .waybar-center, .waybar-right {
+            display: flex;
+            gap: 10px;
+        }
+        .icon {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .menu-item {
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            background: linear-gradient(60deg, rgba(64, 128, 255, 0.4), rgba(16, 32, 128, 0.4));
+        }
+        .menu-item:hover {
+            background: linear-gradient(60deg, rgba(64, 128, 255, 0.8), rgba(16, 32, 128, 0.8));
+        }
+        .cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            transform: rotate(45deg);
+        }
+        .sprite {
+            font-family: monospace;
+            white-space: pre;
+            background-color: rgba(16, 32, 128, 0.8);
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="waybar">
+            <div class="waybar-left">
+                <div class="icon">󰊠 FF6</div>
+                <div class="icon">󰆍 Magic</div>
+                <div class="icon">󰖟 Relics</div>
+                <div class="icon">󰸉 Espers</div>
+            </div>
+            <div class="waybar-center">
+                <div class="icon">12:34</div>
+            </div>
+            <div class="waybar-right">
+                <div class="icon">HP 45%</div>
+                <div class="icon">MP 60%</div>
+                <div class="icon">Save</div>
+            </div>
+        </div>
+        
+        <div class="window">
+            <div class="window-title">Final Fantasy VI Menu</div>
+            <div class="menu-item">Magic (Terminal)</div>
+            <div class="menu-item">Items (Files)</div>
+            <div class="menu-item">Relics (Browser)</div>
+            <div class="menu-item">Config (Settings)</div>
+            <div class="menu-item">Espers (Wallpapers)</div>
+        </div>
+        
+        <div class="window">
+            <div class="window-title">Workspaces</div>
+            <div class="menu-item">Terra</div>
+            <div class="menu-item">Locke</div>
+            <div class="menu-item">Edgar</div>
+            <div class="menu-item">Sabin</div>
+        </div>
+        
+        <div class="sprite">
+╔══════════════════════════════════════╗
+║            ▄▄▄▄                      ║
+║           █▀▀▀▀█                     ║
+║          ██▄▄▄▄██                    ║
+║          █████████                   ║
+║           ▀███▀                      ║
+║            █ █                       ║
+║                                      ║
+║           Terra                      ║
+║        04/16/2025 04:09              ║
+╚══════════════════════════════════════╝
+        </div>
+    </div>
+</body>
+</html>
