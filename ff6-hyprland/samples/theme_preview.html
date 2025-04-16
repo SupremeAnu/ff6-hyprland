@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF6 Hyprland Theme Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #000;
+            color: #fff;
+        }
+        .preview-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .preview-image {
+            width: 100%;
+            height: auto;
+            border: 2px solid #4080FF;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(64, 128, 255, 0.5);
+            margin-bottom: 20px;
+        }
+        .preview-title {
+            text-align: center;
+            color: #4080FF;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(64, 128, 255, 0.5);
+        }
+        .preview-description {
+            text-align: center;
+            color: #ccc;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .preview-card {
+            background: linear-gradient(60deg, #102080, #4080FF);
+            border: 2px solid #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(64, 128, 255, 0.3);
+        }
+        .preview-card h3 {
+            color: #fff;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+        .preview-card p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .preview-footer {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        .mock-desktop {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: linear-gradient(135deg, #000, #102080);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .mock-waybar-top {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 40px;
+            background: linear-gradient(60deg, rgba(16, 32, 128, 0.8), rgba(64, 128, 255, 0.8));
+            border: 2px solid #fff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .mock-waybar-bottom {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            height: 30px;
+            background: linear-gradient(60deg, rgba(16, 32, 128, 0.8), rgba(64, 128, 255, 0.8));
+            border: 2px solid #fff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .mock-window {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            background: linear-gradient(135deg, rgba(16, 32, 128, 0.9), rgba(64, 128, 255, 0.9));
+            border: 2px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+        .mock-window-title {
+            height: 30px;
+            background: linear-gradient(90deg, #4080FF, #102080);
+            border-bottom: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .mock-terminal {
+            padding: 15px;
+            color: #fff;
+            font-family: monospace;
+            height: calc(100% - 60px);
+            overflow: hidden;
+        }
+        .mock-sprite {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 120px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #fff;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+        }
+        .mock-sprite-img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+            background-color: transparent;
+        }
+        .mock-menu {
+            position: absolute;
+            top: 70px;
+            left: 30px;
+            width: 200px;
+            background: linear-gradient(135deg, rgba(16, 32, 128, 0.95), rgba(64, 128, 255, 0.95));
+            border: 2px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+        .mock-menu-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+        .mock-menu-item:last-child {
+            border-bottom: none;
+        }
+        .mock-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .mock-cursor {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 120px;
+            left: 220px;
+            pointer-events: none;
+        }
+        .mock-cursor::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 12px 6px 0 0;
+            border-color: #4080FF transparent transparent transparent;
+            transform: rotate(45deg);
+        }
+        .mock-cursor::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 2px;
+            background: #4080FF;
+            transform: rotate(45deg);
+            top: 10px;
+            left: -2px;
+        }
+        .mock-icon {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        .mock-text {
+            color: #fff;
+            font-size: 14px;
+        }
+        .mock-workspace {
+            padding: 0 10px;
+            color: #fff;
+            font-size: 14px;
+        }
+        .mock-workspace.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1 class="preview-title">Final Fantasy VI Themed Hyprland Configuration</h1>
+        <p class="preview-description">A comprehensive Hyprland configuration with FF6 menu-inspired theme, featuring vibrant character sprites, FF6 sound effects, and the Atma Weapon cursor.</p>
+        
+        <div class="mock-desktop">
+            <div class="mock-waybar-top">
+                <div style="display: flex; align-items: center;">
+                    <div class="mock-icon"></div>
+                    <div class="mock-icon"></div>
+                    <div class="mock-icon"></div>
+                    <div class="mock-icon"></div>
+                </div>
+                <div class="mock-text">16:06</div>
+                <div style="display: flex; align-items: center;">
+                    <div class="mock-text">HP 15%</div>
+                    <div class="mock-text">MP 42%</div>
+                    <div class="mock-text">Sound 80%</div>
+                    <div class="mock-text">Save</div>
+                </div>
+            </div>
+            
+            <div class="mock-window">
+                <div class="mock-window-title">Magic (Terminal)</div>
+                <div class="mock-terminal">
+                    ubuntu@ff6:~$ ls -la<br>
+                    total 32<br>
+                    drwxr-xr-x 4 ubuntu ubuntu 4096 Apr 16 16:05 .<br>
+                    drwxr-xr-x 3 root   root   4096 Apr 16 15:30 ..<br>
+                    -rw------- 1 ubuntu ubuntu  220 Apr 16 15:30 .bash_logout<br>
+                    -rw------- 1 ubuntu ubuntu 3771 Apr 16 15:30 .bashrc<br>
+                    drwx------ 2 ubuntu ubuntu 4096 Apr 16 15:35 .cache<br>
+                    drwx------ 3 ubuntu ubuntu 4096 Apr 16 15:35 .config<br>
+                    -rw------- 1 ubuntu ubuntu  807 Apr 16 15:30 .profile<br>
+                    ubuntu@ff6:~$ _
+                </div>
+                <div class="mock-sprite">
+                    <div class="mock-sprite-img">
+                        <svg width="60" height="60" viewBox="0 0 60 60">
+                            <rect x="20" y="10" width="20" height="20" fill="#50D050" />
+                            <rect x="15" y="30" width="30" height="15" fill="#50D050" />
+                            <rect x="20" y="45" width="5" height="10" fill="#50D050" />
+                            <rect x="35" y="45" width="5" height="10" fill="#50D050" />
+                        </svg>
+                    </div>
+                    Terra<br>
+                    16:06:42
+                </div>
+            </div>
+            
+            <div class="mock-menu">
+                <div class="mock-menu-item">Firefox</div>
+                <div class="mock-menu-item">Terminal</div>
+                <div class="mock-menu-item">Files</div>
+                <div class="mock-menu-item">Settings</div>
+                <div class="mock-menu-item">Power</div>
+            </div>
+            
+            <div class="mock-cursor"></div>
+            
+            <div class="mock-waybar-bottom">
+                <div style="display: flex; align-items: center;">
+                    <div class="mock-workspace active">Terra</div>
+                    <div class="mock-workspace">Locke</div>
+                    <div class="mock-workspace">Edgar</div>
+                    <div class="mock-workspace">Sabin</div>
+                </div>
+                <div class="mock-text">Terminal</div>
+                <div style="display: flex; align-items: center;">
+                    <div class="mock-text">Chocobo WiFi</div>
+                    <div class="mock-text">Updates 0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-grid">
+            <div class="preview-card">
+                <h3>FF6 Menu Style Theme</h3>
+                <p>Blue gradient backgrounds with white borders across all UI elements, inspired by the iconic FF6 menu system.</p>
+            </div>
+            <div class="preview-card">
+                <h3>Full-Color Character Sprites</h3>
+                <p>Vibrant, colorful FF1-6 character sprites displayed in the terminal with authentic colors.</p>
+            </div>
+            <div class="preview-card">
+                <h3>FF6 Sound Effects</h3>
+                <p>Authentic FF6-style sound effects for cursor movement, confirmation, menu opening, and errors.</p>
+            </div>
+            <div class="preview-card">
+                <h3>Atma Weapon Cursor</h3>
+                <p>Custom cursor inspired by the legendary FF6 weapon, with different styles for various cursor states.</p>
+            </div>
+            <div class="preview-card">
+                <h3>Resolution Detection</h3>
+                <p>Automatically adjusts UI scaling between 1080p, 1440p, and 4K for optimal display on any monitor.</p>
+            </div>
+            <div class="preview-card">
+                <h3>FF6 Terminology</h3>
+                <p>Waybar elements renamed to match FF6 game terms (Magic, Items, Relics, Espers, etc.)</p>
+            </div>
+        </div>
+        
+        <p class="preview-footer">Final Fantasy VI is property of Square Enix. This theme is a fan project and is not affiliated with or endorsed by Square Enix.</p>
+    </div>
+</body>
+</html>
