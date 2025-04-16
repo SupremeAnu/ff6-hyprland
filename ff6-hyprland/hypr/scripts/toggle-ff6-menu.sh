@@ -20,8 +20,12 @@ echo -e "${BLUE}=========================================${NC}"
 echo
 
 # Play menu open sound
-if [ -f "$HYPR_DIR/scripts/play-sound.sh" ] && [ -f "$SOUNDS_DIR/menu_open.wav" ]; then
-    "$HYPR_DIR/scripts/play-sound.sh" menu_open
+if [ -f "$SOUNDS_DIR/menu_open.wav" ]; then
+    if command -v paplay &> /dev/null; then
+        paplay "$SOUNDS_DIR/menu_open.wav" &
+    elif command -v aplay &> /dev/null; then
+        aplay "$SOUNDS_DIR/menu_open.wav" &
+    fi
 fi
 
 # Check if rofi is installed

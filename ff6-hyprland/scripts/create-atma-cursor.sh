@@ -1,272 +1,183 @@
 #!/bin/bash
-# Script to create Atma Weapon cursor theme for FF6 Hyprland
+# Script to create the Atma Weapon cursor theme
+# Based on the FF6 Ultima Weapon sprite
 # Created: April 2025
 
 # ANSI color codes
 GREEN='\033[0;32m'
-RED='\033[0;31m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Config paths
-CURSOR_DIR="$HOME/.local/share/icons/AtmaWeapon"
-TEMP_DIR="/tmp/atma_cursor"
-
 # Print header
 echo -e "${BLUE}=========================================${NC}"
-echo -e "${BLUE}  Atma Weapon Cursor Theme Generator    ${NC}"
+echo -e "${BLUE}  Creating Atma Weapon Cursor Theme      ${NC}"
 echo -e "${BLUE}=========================================${NC}"
 echo
 
-# Function to check if a command exists
-command_exists() {
-    command -v "$1" &> /dev/null
-}
+# Define directories
+CURSOR_DIR="$HOME/.local/share/icons/AtmaWeapon"
+CURSOR_SRC="$HOME/.config/hypr/cursors"
 
-# Check if required commands are installed
-if ! command_exists convert; then
-    echo -e "${RED}Error: ImageMagick (convert) is not installed. Cannot create cursor theme.${NC}"
-    echo -e "${RED}Please install ImageMagick and try again.${NC}"
-    exit 1
-fi
-
-# Create directories
+# Create cursor directories
 mkdir -p "$CURSOR_DIR/cursors"
-mkdir -p "$TEMP_DIR"
 
-echo -e "${YELLOW}Creating Atma Weapon cursor theme...${NC}"
-
-# Create cursor.theme file
-cat > "$CURSOR_DIR/cursor.theme" << EOF
-[Icon Theme]
-Name=AtmaWeapon
-Comment=FF6-themed cursor based on the Atma Weapon
-Inherits=Adwaita
-EOF
-
-echo -e "${GREEN}Created cursor.theme file.${NC}"
-
-# Create index.theme file
+# Create cursor theme index file
 cat > "$CURSOR_DIR/index.theme" << EOF
 [Icon Theme]
 Name=AtmaWeapon
-Comment=FF6-themed cursor based on the Atma Weapon
+Comment=FF6 Atma Weapon Cursor Theme
 Inherits=Adwaita
-Directories=cursors
 EOF
 
-echo -e "${GREEN}Created index.theme file.${NC}"
+echo -e "${GREEN}Creating Atma Weapon cursor theme...${NC}"
 
-# Function to create a cursor
-create_cursor() {
-    local name="$1"
-    local size="$2"
-    local hotspot_x="$3"
-    local hotspot_y="$4"
-    local color="$5"
-    local output="$6"
-    
-    # Create a sword-shaped cursor
-    convert -size "${size}x${size}" xc:transparent \
-        -fill "$color" \
-        -draw "polygon ${hotspot_x},${hotspot_y} $((hotspot_x+size/4)),$((hotspot_y-size/3)) $((hotspot_x+size/2)),$((hotspot_y-size/4)) $((hotspot_x+size/3)),$((hotspot_y+size/3))" \
-        -draw "line $((hotspot_x+size/4)),$((hotspot_y-size/3)) $((hotspot_x+size/3)),$((hotspot_y-size/2))" \
-        "$TEMP_DIR/$name.png"
-    
-    # Convert to cursor format
-    if command_exists xcursorgen; then
+# Create cursor image (24x24 pixels)
+cat > /tmp/atma_cursor.xbm << EOF
+#define atma_cursor_width 24
+#define atma_cursor_height 24
+static unsigned char atma_cursor_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+EOF
+
+cat > /tmp/atma_cursor_mask.xbm << EOF
+#define atma_cursor_mask_width 24
+#define atma_cursor_mask_height 24
+static unsigned char atma_cursor_mask_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+EOF
+
+# Create a PNG version of the cursor using ImageMagick if available
+if command -v convert &> /dev/null; then
+    # Create a blue sword cursor similar to Ultima Weapon from FF6
+    convert -size 24x24 xc:transparent \
+        -fill "#0000FF" -stroke "#000080" -strokewidth 1 \
+        -draw "line 2,2 22,22" \
+        -draw "line 3,2 22,21" \
+        -draw "line 2,3 21,22" \
+        -fill "#4080FF" -stroke "#4080FF" -strokewidth 1 \
+        -draw "line 4,4 20,20" \
+        -fill "#80C0FF" -stroke "#80C0FF" -strokewidth 1 \
+        -draw "line 6,6 18,18" \
+        -fill "#FFFFFF" -stroke "#FFFFFF" -strokewidth 1 \
+        -draw "line 8,8 16,16" \
+        -fill "#FFC000" -stroke "#804000" -strokewidth 1 \
+        -draw "rectangle 20,20 23,23" \
+        /tmp/atma_cursor.png
+
+    # Create cursor files using xcursorgen if available
+    if command -v xcursorgen &> /dev/null; then
         # Create config file for xcursorgen
-        echo "$size $hotspot_x $hotspot_y $TEMP_DIR/$name.png 0" > "$TEMP_DIR/$name.cfg"
+        echo "24 12 12 /tmp/atma_cursor.png" > /tmp/atma_cursor.config
         
-        # Generate cursor
-        xcursorgen "$TEMP_DIR/$name.cfg" "$output"
-        echo -e "${GREEN}Created cursor: $name${NC}"
+        # Generate cursor files
+        xcursorgen /tmp/atma_cursor.config "$CURSOR_DIR/cursors/left_ptr"
+        
+        # Create symlinks for different cursor types
+        cd "$CURSOR_DIR/cursors"
+        ln -sf left_ptr arrow
+        ln -sf left_ptr default
+        ln -sf left_ptr pointer
+        ln -sf left_ptr top_left_arrow
+        ln -sf left_ptr text
+        ln -sf left_ptr ibeam
+        ln -sf left_ptr vertical-text
+        ln -sf left_ptr hand
+        ln -sf left_ptr hand1
+        ln -sf left_ptr hand2
+        ln -sf left_ptr pointer-move
+        ln -sf left_ptr all-scroll
+        ln -sf left_ptr grab
+        ln -sf left_ptr grabbing
+        ln -sf left_ptr fleur
+        ln -sf left_ptr size_ver
+        ln -sf left_ptr size_hor
+        ln -sf left_ptr size_bdiag
+        ln -sf left_ptr size_fdiag
+        ln -sf left_ptr size_all
+        ln -sf left_ptr crosshair
+        ln -sf left_ptr wait
+        ln -sf left_ptr watch
+        ln -sf left_ptr progress
+        ln -sf left_ptr not-allowed
+        ln -sf left_ptr no-drop
+        ln -sf left_ptr copy
+        ln -sf left_ptr move
+        ln -sf left_ptr link
+        ln -sf left_ptr context-menu
+        ln -sf left_ptr help
+        ln -sf left_ptr zoom-in
+        ln -sf left_ptr zoom-out
+        
+        echo -e "${GREEN}Cursor theme created successfully at $CURSOR_DIR${NC}"
     else
-        echo -e "${RED}Error: xcursorgen is not installed. Cannot create cursor.${NC}"
-        echo -e "${RED}Please install xcursorgen and try again.${NC}"
-        exit 1
-    fi
-}
-
-# Create default cursor
-create_cursor "default" 32 16 16 "#4080FF" "$CURSOR_DIR/cursors/left_ptr"
-
-# Create symlinks for all cursor types
-echo -e "${YELLOW}Creating cursor symlinks...${NC}"
-
-# List of cursor names that should use the default cursor
-CURSOR_SYMLINKS=(
-    "arrow"
-    "top_left_arrow"
-    "right_ptr"
-    "context-menu"
-    "default"
-    "pointer"
-    "pointing_hand"
-    "hand1"
-    "hand2"
-    "openhand"
-    "closedhand"
-    "dnd-none"
-    "dnd-copy"
-    "dnd-move"
-    "dnd-link"
-    "help"
-    "question_arrow"
-    "whats_this"
-    "progress"
-    "wait"
-    "watch"
-    "cell"
-    "crosshair"
-    "text"
-    "vertical-text"
-    "alias"
-    "copy"
-    "move"
-    "no-drop"
-    "not-allowed"
-    "grab"
-    "grabbing"
-    "e-resize"
-    "n-resize"
-    "ne-resize"
-    "nw-resize"
-    "s-resize"
-    "se-resize"
-    "sw-resize"
-    "w-resize"
-    "ew-resize"
-    "ns-resize"
-    "nesw-resize"
-    "nwse-resize"
-    "col-resize"
-    "row-resize"
-    "all-scroll"
-    "zoom-in"
-    "zoom-out"
-)
-
-# Create symlinks
-for cursor in "${CURSOR_SYMLINKS[@]}"; do
-    if [ "$cursor" != "left_ptr" ]; then
-        ln -sf "left_ptr" "$CURSOR_DIR/cursors/$cursor"
-    fi
-done
-
-echo -e "${GREEN}Created cursor symlinks.${NC}"
-
-# Create text cursor
-create_cursor "text_cursor" 32 16 16 "#FF8000" "$CURSOR_DIR/cursors/xterm"
-
-# Create symlinks for text cursor
-TEXT_CURSOR_SYMLINKS=(
-    "ibeam"
-    "text"
-)
-
-for cursor in "${TEXT_CURSOR_SYMLINKS[@]}"; do
-    if [ "$cursor" != "xterm" ]; then
-        ln -sf "xterm" "$CURSOR_DIR/cursors/$cursor"
-    fi
-done
-
-# Create busy cursor
-create_cursor "busy_cursor" 32 16 16 "#FF0000" "$CURSOR_DIR/cursors/watch"
-
-# Create symlinks for busy cursor
-BUSY_CURSOR_SYMLINKS=(
-    "wait"
-    "progress"
-)
-
-for cursor in "${BUSY_CURSOR_SYMLINKS[@]}"; do
-    if [ "$cursor" != "watch" ]; then
-        ln -sf "watch" "$CURSOR_DIR/cursors/$cursor"
-    fi
-done
-
-# Create hand cursor
-create_cursor "hand_cursor" 32 16 16 "#00FF00" "$CURSOR_DIR/cursors/hand"
-
-# Create symlinks for hand cursor
-HAND_CURSOR_SYMLINKS=(
-    "pointer"
-    "pointing_hand"
-    "hand1"
-    "hand2"
-)
-
-for cursor in "${HAND_CURSOR_SYMLINKS[@]}"; do
-    if [ "$cursor" != "hand" ]; then
-        ln -sf "hand" "$CURSOR_DIR/cursors/$cursor"
-    fi
-done
-
-# Clean up temporary files
-rm -rf "$TEMP_DIR"
-
-echo -e "${BLUE}=========================================${NC}"
-echo -e "${GREEN}Atma Weapon cursor theme created successfully!${NC}"
-echo -e "${YELLOW}Cursor theme installed to: $CURSOR_DIR${NC}"
-echo -e "${BLUE}=========================================${NC}"
-
-# Set cursor theme
-echo -e "${YELLOW}Setting cursor theme...${NC}"
-
-# Update GTK settings
-GTK_SETTINGS="$HOME/.config/gtk-3.0/settings.ini"
-mkdir -p "$(dirname "$GTK_SETTINGS")"
-
-if [ -f "$GTK_SETTINGS" ]; then
-    # Check if cursor theme is already set
-    if grep -q "gtk-cursor-theme-name" "$GTK_SETTINGS"; then
-        # Update existing setting
-        sed -i 's/gtk-cursor-theme-name=.*/gtk-cursor-theme-name=AtmaWeapon/' "$GTK_SETTINGS"
-    else
-        # Add setting
-        echo "gtk-cursor-theme-name=AtmaWeapon" >> "$GTK_SETTINGS"
+        echo -e "${YELLOW}Warning: xcursorgen not found. Using fallback cursor.${NC}"
+        # Copy default cursor as fallback
+        cp /usr/share/icons/Adwaita/cursors/left_ptr "$CURSOR_DIR/cursors/"
+        cd "$CURSOR_DIR/cursors"
+        ln -sf left_ptr arrow
+        ln -sf left_ptr default
     fi
 else
-    # Create new settings file
-    cat > "$GTK_SETTINGS" << EOF
-[Settings]
-gtk-cursor-theme-name=AtmaWeapon
-gtk-cursor-theme-size=24
-EOF
+    echo -e "${YELLOW}Warning: ImageMagick not found. Using fallback cursor.${NC}"
+    # Copy default cursor as fallback
+    cp /usr/share/icons/Adwaita/cursors/left_ptr "$CURSOR_DIR/cursors/"
+    cd "$CURSOR_DIR/cursors"
+    ln -sf left_ptr arrow
+    ln -sf left_ptr default
 fi
 
-echo -e "${GREEN}GTK cursor theme set.${NC}"
+# Clean up temporary files
+rm -f /tmp/atma_cursor.xbm /tmp/atma_cursor_mask.xbm /tmp/atma_cursor.png /tmp/atma_cursor.config
 
-# Update environment variables
-ENV_FILES=("$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.config/hypr/env.conf")
-
-for ENV_FILE in "${ENV_FILES[@]}"; do
-    if [ -f "$ENV_FILE" ]; then
+# Update user's cursor configuration
+if [ -d "$HOME/.config/gtk-3.0" ]; then
+    if [ -f "$HOME/.config/gtk-3.0/settings.ini" ]; then
         # Check if cursor theme is already set
-        if grep -q "XCURSOR_THEME=" "$ENV_FILE"; then
-            # Update existing setting
-            sed -i 's/XCURSOR_THEME=.*/XCURSOR_THEME=AtmaWeapon/' "$ENV_FILE"
+        if grep -q "gtk-cursor-theme-name" "$HOME/.config/gtk-3.0/settings.ini"; then
+            # Update existing cursor theme
+            sed -i 's/gtk-cursor-theme-name=.*/gtk-cursor-theme-name=AtmaWeapon/' "$HOME/.config/gtk-3.0/settings.ini"
         else
-            # Add setting
-            echo "export XCURSOR_THEME=AtmaWeapon" >> "$ENV_FILE"
+            # Add cursor theme setting
+            echo "gtk-cursor-theme-name=AtmaWeapon" >> "$HOME/.config/gtk-3.0/settings.ini"
         fi
-        
-        # Check if cursor size is already set
-        if grep -q "XCURSOR_SIZE=" "$ENV_FILE"; then
-            # Update existing setting
-            sed -i 's/XCURSOR_SIZE=.*/XCURSOR_SIZE=24/' "$ENV_FILE"
+    else
+        # Create settings.ini file
+        mkdir -p "$HOME/.config/gtk-3.0"
+        echo "[Settings]" > "$HOME/.config/gtk-3.0/settings.ini"
+        echo "gtk-cursor-theme-name=AtmaWeapon" >> "$HOME/.config/gtk-3.0/settings.ini"
+    fi
+fi
+
+# Update Hyprland environment variables
+if [ -d "$HOME/.config/hypr" ]; then
+    # Check if hyprland.conf exists
+    if [ -f "$HOME/.config/hypr/hyprland.conf" ]; then
+        # Check if cursor theme is already set
+        if grep -q "XCURSOR_THEME" "$HOME/.config/hypr/hyprland.conf"; then
+            # Update existing cursor theme
+            sed -i 's/env = XCURSOR_THEME,.*/env = XCURSOR_THEME,AtmaWeapon/' "$HOME/.config/hypr/hyprland.conf"
         else
-            # Add setting
-            echo "export XCURSOR_SIZE=24" >> "$ENV_FILE"
+            # Add cursor theme setting
+            echo "env = XCURSOR_THEME,AtmaWeapon" >> "$HOME/.config/hypr/hyprland.conf"
+            echo "env = XCURSOR_SIZE,24" >> "$HOME/.config/hypr/hyprland.conf"
         fi
     fi
-done
+fi
 
-echo -e "${GREEN}Environment variables set.${NC}"
+echo -e "${GREEN}Cursor theme configuration complete!${NC}"
+echo -e "${BLUE}Please restart Hyprland for changes to take effect.${NC}"
 
-echo -e "${BLUE}=========================================${NC}"
-echo -e "${GREEN}Atma Weapon cursor theme setup complete!${NC}"
-echo -e "${YELLOW}Log out and back in for changes to take effect.${NC}"
-echo -e "${BLUE}=========================================${NC}"
+exit 0

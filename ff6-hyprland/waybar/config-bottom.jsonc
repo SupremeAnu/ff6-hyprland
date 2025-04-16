@@ -6,6 +6,10 @@
     "margin-left": 8,
     "margin-right": 8,
     "spacing": 4,
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "reload_style_on_change": true,
     
     "modules-left": [
         "hyprland/workspaces"
