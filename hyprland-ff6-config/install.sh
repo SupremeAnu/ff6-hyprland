@@ -225,15 +225,18 @@ create_dir "$CURSOR_DIR"
 create_dir "$HYPR_DIR/wallpapers"
 
 # Extract and copy configuration files
+
+# Copy configuration files directly from repository
 echo -e "${BLUE}Installing FF6 Hyprland configuration...${NC}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_ARCHIVE="$SCRIPT_DIR/ff6-hyprland-config.tar.gz"
 
-if [ ! -f "$CONFIG_ARCHIVE" ]; then
-    echo -e "${RED}Error: Configuration archive not found at $CONFIG_ARCHIVE${NC}"
-    echo -e "${RED}Please make sure the ff6-hyprland-config.tar.gz file is in the same directory as this script.${NC}"
-    exit 1
-fi
+# Create a temporary directory for organization
+TMP_DIR=$(mktemp -d)
+echo -e "${YELLOW}Preparing configuration files...${NC}"
+
+# Copy files to temporary directory for consistent structure
+cp -r "$SCRIPT_DIR/"* "$TMP_DIR/"
+
 
 # Create a temporary directory for extraction
 TMP_DIR=$(mktemp -d)
