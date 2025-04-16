@@ -2,14 +2,13 @@
 
 A comprehensive Hyprland configuration with a Final Fantasy VI menu-inspired theme featuring blue gradients with white borders, FF6 character sprites, and the Atma Weapon cursor.
 
-![FF6 Theme Preview](screenshots/theme_preview.webp)
+![FF6 Theme Preview](samples/theme_preview.html)
 
 ## Features
 
 - **FF6 Menu Style Theme**: Blue gradient backgrounds with white borders across all UI elements
 - **FF6 Character Sprites**: Random FF6 character sprite display in terminal
 - **Atma Weapon Cursor**: Custom cursor from FF6
-- **FF6 Sound Effects**: Authentic FF6 cursor sounds for notifications and FF6 menu confirm sounds for interactions
 - **FF6 Terminology**: Waybar elements renamed to match FF6 game terms (Magic, Items, Relics, etc.)
 - **Paired Function Icons**: Each icon handles two functions (left/right click)
 - **Responsive Design**: Works across resolutions from 1080p to 4K
