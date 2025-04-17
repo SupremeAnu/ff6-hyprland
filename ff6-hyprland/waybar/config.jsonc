@@ -1,139 +1,44 @@
-[
-  {
-    "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
-    ],
-    "name": "ff6-top-bar",
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "exclusive": true,
-    "spacing": 0,
-    "margin-top": 5,
-    "margin-left": 5,
-    "margin-right": 5,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "reload_style_on_change": true,
-    
-    "modules-left": [
-      "custom/terra",
-      "custom/terra_lv", "cpu",
-      "custom/terra_hp", "memory",
-      "custom/terra_mp", "disk"
-    ],
-    
-    "modules-center": [
-      "custom/magitek_elite"
-    ],
-    
-    "modules-right": [
-      "custom/items",
-      "custom/abilities",
-      "custom/equip",
-      "custom/relics",
-      "custom/status",
-      "custom/formation",
-      "custom/config",
-      "custom/quicksave",
-      "custom/save"
-    ]
-  },
+{
+  "include": [
+    "$HOME/.config/waybar/modules/standard.jsonc",
+    "$HOME/.config/waybar/modules/workspaces.jsonc",
+    "$HOME/.config/waybar/modules/custom.jsonc",
+    "$HOME/.config/waybar/modules/ff6-menu.jsonc"
+  ],
+  "layer": "top",
+  "position": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 32,
+  "spacing": 2,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
   
-  {
-    "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
-    ],
-    "name": "ff6-middle-bar",
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "exclusive": false,
-    "spacing": 0,
-    "margin-top": 40,
-    "margin-left": 5,
-    "margin-right": 5,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "reload_style_on_change": true,
-    
-    "modules-left": [
-      "custom/gannon",
-      "custom/gannon_lv", "network",
-      "custom/gannon_hp", "temperature"
-    ],
-    
-    "modules-center": [
-      "custom/oracle"
-    ],
-    
-    "modules-right": [
-      "custom/overworld"
-    ]
-  },
+  "modules-left": [
+    "hyprland/workspaces",
+    "custom/separator#blank_2",
+    "group/ff6-menu"
+  ],
   
-  {
-    "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc",
-      "modules/ff6-menu-drawer.jsonc"
-    ],
-    "name": "ff6-bottom-bar",
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "exclusive": false,
-    "spacing": 0,
-    "margin-top": 75,
-    "margin-left": 5,
-    "margin-right": 5,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "reload_style_on_change": true,
-    
-    "modules-left": [
-      "group/ff6_menu_drawer",
-      "custom/edgar",
-      "custom/edgar_lv", "hyprland/workspaces",
-      "custom/edgar_hp", "battery"
-    ],
-    
-    "modules-center": [
-      "custom/machinist"
-    ],
-    
-    "modules-right": []
-  },
+  "modules-center": [
+    "hyprland/window"
+  ],
   
-  {
-    "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
-    ],
-    "name": "ff6-system-bar",
-    "layer": "top",
-    "position": "bottom",
-    "height": 30,
-    "exclusive": true,
-    "spacing": 0,
-    "margin-bottom": 5,
-    "margin-left": 5,
-    "margin-right": 5,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "reload_style_on_change": true,
-    
-    "modules-left": [],
-    
-    "modules-center": [],
-    
-    "modules-right": [
-      "custom/time", "clock",
-      "custom/steps", "custom/uptime",
-      "custom/gil", "custom/disk_free",
-      "tray"
-    ]
-  }
-]
+  "modules-right": [
+    "network",
+    "bluetooth",
+    "custom/separator#blank",
+    "battery",
+    "backlight",
+    "pulseaudio",
+    "custom/separator#blank",
+    "group/system-monitors",
+    "custom/separator#blank",
+    "clock",
+    "tray",
+    "custom/separator#blank",
+    "group/power"
+  ]
+}
