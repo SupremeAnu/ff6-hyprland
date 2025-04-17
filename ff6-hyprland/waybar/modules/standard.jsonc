@@ -1,0 +1,191 @@
+{
+  "backlight": {
+    "interval": 2,
+    "format": "{icon} {percent}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "on-scroll-up": "$HOME/.config/hypr/scripts/brightness.sh --inc",
+    "on-scroll-down": "$HOME/.config/hypr/scripts/brightness.sh --dec",
+    "tooltip": true,
+    "tooltip-format": "Brightness: {percent}%"
+  },
+  
+  "battery": {
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": ["", "", "", "", "", "", "", "", "", ""],
+    "tooltip": true,
+    "tooltip-format": "Battery: {capacity}%\nTime remaining: {time}"
+  },
+  
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱 {num_connections}",
+    "tooltip-format": "{device_alias}",
+    "tooltip-format-connected": " {device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager",
+    "on-click-right": "rfkill toggle bluetooth"
+  },
+  
+  "clock": {
+    "interval": 60,
+    "format": "{:%H:%M}",
+    "format-alt": "{:%A, %B %d, %Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'>{}</span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  
+  "cpu": {
+    "interval": 10,
+    "format": " {usage}%",
+    "format-alt": " {avg_frequency}GHz",
+    "on-click-right": "$HOME/.config/hypr/scripts/system-monitor.sh",
+    "tooltip": true,
+    "tooltip-format": "CPU Usage: {usage}%\nCPU Frequency: {avg_frequency}GHz"
+  },
+  
+  "disk": {
+    "interval": 30,
+    "format": "󰋊 {percentage_used}%",
+    "path": "/",
+    "tooltip": true,
+    "tooltip-format": "Disk usage: {used} out of {total} ({percentage_used}%)"
+  },
+  
+  "group/power": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/power"
+    ]
+  },
+  
+  "group/system-monitors": {
+    "orientation": "horizontal",
+    "modules": [
+      "cpu",
+      "memory",
+      "temperature"
+    ]
+  },
+  
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 50,
+    "separate-outputs": true,
+    "offscreen-css": true,
+    "offscreen-css-text": "(inactive)",
+    "rewrite": {
+      "(.*) — Mozilla Firefox": " $1",
+      "(.*) - fish": "> [$1]",
+      "(.*) - zsh": "> [$1]",
+      "(.*) - kitty": "> [$1]"
+    }
+  },
+  
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": " ",
+      "deactivated": " "
+    },
+    "tooltip": true,
+    "tooltip-format-activated": "Idle inhibitor active",
+    "tooltip-format-deactivated": "Idle inhibitor inactive"
+  },
+  
+  "keyboard-state": {
+    "capslock": true,
+    "format": {
+      "capslock": "󰪛 {icon}"
+    },
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    }
+  },
+  
+  "memory": {
+    "interval": 10,
+    "format": "󰍛 {percentage}%",
+    "format-alt": "󰍛 {used:0.1f}GB",
+    "tooltip": true,
+    "tooltip-format": "Memory: {used:0.1f}GB/{total:0.1f}GB ({percentage}%)",
+    "on-click-right": "$HOME/.config/hypr/scripts/system-monitor.sh"
+  },
+  
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": " ",
+    "format-ethernet": "󰌘",
+    "format-disconnected": "󰌙",
+    "tooltip-format": "{ipaddr}  {bandwidthUpBits}  {bandwidthDownBits}",
+    "tooltip-format-wifi": "{essid}  {signalStrength}%",
+    "tooltip-format-ethernet": "{ifname} 󰌘",
+    "tooltip-format-disconnected": "󰌙 Disconnected",
+    "max-length": 30,
+    "on-click-right": "nm-connection-editor"
+  },
+  
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{icon} 󰂰 {volume}%",
+    "format-muted": "󰖁",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", "󰕾", ""]
+    },
+    "scroll-step": 5.0,
+    "on-click": "$HOME/.config/hypr/scripts/volume.sh --toggle",
+    "on-click-right": "pavucontrol -t 3",
+    "on-scroll-up": "$HOME/.config/hypr/scripts/volume.sh --inc",
+    "on-scroll-down": "$HOME/.config/hypr/scripts/volume.sh --dec",
+    "tooltip-format": "{icon} {desc} | {volume}%",
+    "smooth-scrolling-threshold": 1
+  },
+  
+  "temperature": {
+    "interval": 10,
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip": true,
+    "tooltip-format": "Temperature: {temperatureC}°C"
+  },
+  
+  "tray": {
+    "icon-size": 20,
+    "spacing": 4
+  }
+}

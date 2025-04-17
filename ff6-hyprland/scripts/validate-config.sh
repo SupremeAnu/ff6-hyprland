@@ -1,160 +1,139 @@
 #!/bin/bash
-# Script to test and validate the FF6-themed Hyprland configuration
-# Part of FF6 Hyprland Configuration
+# FF6-Themed Hyprland Configuration - Validation Script
+# This script validates that all components are properly configured
 
-# ANSI color codes
+# Set text colors
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Config paths
-CONFIG_DIR="/home/ubuntu/hyprland-crimson-config"
-HYPR_DIR="$CONFIG_DIR/hypr"
-WAYBAR_DIR="$CONFIG_DIR/waybar"
-KITTY_DIR="$CONFIG_DIR/kitty"
-SCRIPTS_DIR="$CONFIG_DIR/scripts"
-SPRITES_DIR="$CONFIG_DIR/sprites"
-
-# Print header
-echo -e "${BLUE}=========================================${NC}"
-echo -e "${BLUE}  FF6 Hyprland Configuration Validator  ${NC}"
-echo -e "${BLUE}=========================================${NC}"
-echo
+# Base project directory
+PROJECT_DIR="/home/ubuntu/hyprland-crimson-config"
 
 # Function to check if a file exists
 check_file() {
-    local file="$1"
-    local name="$2"
-    
-    echo -ne "${YELLOW}Checking $name file... ${NC}"
-    if [ -f "$file" ]; then
-        echo -e "${GREEN}Found${NC}"
+    if [ -f "$1" ]; then
+        echo -e "${GREEN}✓${NC} File exists: $1"
         return 0
     else
-        echo -e "${RED}Not found${NC}"
+        echo -e "${RED}✗${NC} File missing: $1"
         return 1
     fi
 }
 
 # Function to check if a directory exists
 check_dir() {
-    local dir="$1"
-    local name="$2"
-    
-    echo -ne "${YELLOW}Checking $name directory... ${NC}"
-    if [ -d "$dir" ]; then
-        echo -e "${GREEN}Found${NC}"
+    if [ -d "$1" ]; then
+        echo -e "${GREEN}✓${NC} Directory exists: $1"
         return 0
     else
-        echo -e "${RED}Not found${NC}"
+        echo -e "${RED}✗${NC} Directory missing: $1"
         return 1
     fi
 }
 
-# Function to validate JSON syntax
-validate_json() {
-    local file="$1"
-    local name="$2"
-    
-    echo -ne "${YELLOW}Validating $name JSON syntax... ${NC}"
-    if [ -f "$file" ]; then
-        # Remove comments before validation
-        cat "$file" | sed 's|//.*||g' | jq . >/dev/null 2>&1
-        if [ $? -eq 0 ]; then
-            echo -e "${GREEN}Valid${NC}"
-            return 0
-        else
-            echo -e "${RED}Invalid${NC}"
-            return 1
-        fi
+# Function to check if a script is executable
+check_executable() {
+    if [ -x "$1" ]; then
+        echo -e "${GREEN}✓${NC} Script is executable: $1"
+        return 0
     else
-        echo -e "${RED}File not found${NC}"
+        echo -e "${RED}✗${NC} Script is not executable: $1"
         return 1
     fi
 }
 
-# Check main directories
-echo -e "${BLUE}Checking main directories...${NC}"
-check_dir "$CONFIG_DIR" "Configuration root"
-check_dir "$HYPR_DIR" "Hyprland configuration"
-check_dir "$WAYBAR_DIR" "Waybar configuration"
-check_dir "$KITTY_DIR" "Kitty configuration"
-check_dir "$SCRIPTS_DIR" "Scripts"
-check_dir "$SPRITES_DIR" "Sprites"
+# Print header
+echo -e "${BLUE}========================================${NC}"
+echo -e "${BLUE}   FF6-Themed Hyprland Configuration   ${NC}"
+echo -e "${BLUE}          Validation Script            ${NC}"
+echo -e "${BLUE}========================================${NC}"
 
-# Check critical configuration files
-echo -e "${BLUE}Checking critical configuration files...${NC}"
-check_file "$HYPR_DIR/hyprland.conf" "Hyprland main config"
-check_file "$HYPR_DIR/animations.conf" "Hyprland animations config"
-check_file "$HYPR_DIR/colors.conf" "Hyprland colors config"
-check_file "$WAYBAR_DIR/config-top.jsonc" "Waybar top config"
-check_file "$WAYBAR_DIR/config-bottom.jsonc" "Waybar bottom config"
-check_file "$KITTY_DIR/kitty.conf" "Kitty config"
-check_file "$KITTY_DIR/ff_sprite.py" "Kitty FF6 sprite script"
+# Initialize counters
+total_checks=0
+passed_checks=0
 
-# Check script files
-echo -e "${BLUE}Checking script files...${NC}"
-check_file "$SCRIPTS_DIR/integrate-sprites.sh" "Sprite integration script"
-check_file "$SCRIPTS_DIR/pixel-sprite-converter.py" "Pixel sprite converter script"
-check_file "$SCRIPTS_DIR/update-installer.sh" "Installer update script"
-check_file "$SCRIPTS_DIR/waybar-fix/fix-waybar.sh" "Waybar fix script"
+# Check Hyprland configuration
+echo -e "\n${YELLOW}Checking Hyprland configuration...${NC}"
+check_file "$PROJECT_DIR/hypr/hyprland.conf" && ((passed_checks++))
+check_file "$PROJECT_DIR/hypr/keybinds.conf" && ((passed_checks++))
+check_file "$PROJECT_DIR/hypr/animations.conf" && ((passed_checks++))
+check_file "$PROJECT_DIR/hypr/colors.conf" && ((passed_checks++))
+((total_checks+=4))
 
-# Validate JSON syntax
-echo -e "${BLUE}Validating JSON syntax...${NC}"
-validate_json "$WAYBAR_DIR/config-top.jsonc" "Waybar top config"
-validate_json "$WAYBAR_DIR/config-bottom.jsonc" "Waybar bottom config"
+# Check Waybar configuration
+echo -e "\n${YELLOW}Checking Waybar configuration...${NC}"
+check_file "$PROJECT_DIR/waybar/config.jsonc" && ((passed_checks++))
+check_file "$PROJECT_DIR/waybar/style.css" && ((passed_checks++))
+check_dir "$PROJECT_DIR/waybar/modules" && ((passed_checks++))
+check_file "$PROJECT_DIR/waybar/modules/standard.jsonc" && ((passed_checks++))
+check_file "$PROJECT_DIR/waybar/modules/workspaces.jsonc" && ((passed_checks++))
+check_file "$PROJECT_DIR/waybar/modules/custom.jsonc" && ((passed_checks++))
+check_file "$PROJECT_DIR/waybar/modules/ff6-menu.jsonc" && ((passed_checks++))
+((total_checks+=7))
 
-# Check for Python and dependencies
-echo -e "${BLUE}Checking Python and dependencies...${NC}"
-echo -ne "${YELLOW}Checking Python installation... ${NC}"
-if command -v python3 &> /dev/null; then
-    echo -e "${GREEN}Found${NC}"
-    
-    echo -ne "${YELLOW}Checking PIL/Pillow installation... ${NC}"
-    python3 -c "import PIL" &> /dev/null
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Found${NC}"
-    else
-        echo -e "${RED}Not found${NC}"
-        echo -e "${YELLOW}Warning: PIL/Pillow is required for sprite conversion.${NC}"
-    fi
+# Check Rofi configuration
+echo -e "\n${YELLOW}Checking Rofi configuration...${NC}"
+check_file "$PROJECT_DIR/rofi/config.rasi" && ((passed_checks++))
+check_file "$PROJECT_DIR/rofi/shared-fonts.rasi" && ((passed_checks++))
+check_file "$PROJECT_DIR/rofi/themes/ff6-menu.rasi" && ((passed_checks++))
+check_executable "$PROJECT_DIR/scripts/rofi-theme.sh" && ((passed_checks++))
+((total_checks+=4))
+
+# Check Cursor configuration
+echo -e "\n${YELLOW}Checking Cursor configuration...${NC}"
+check_dir "$PROJECT_DIR/cursor/AtmaWeapon" && ((passed_checks++))
+check_file "$PROJECT_DIR/cursor/AtmaWeapon/cursor.theme" && ((passed_checks++))
+check_dir "$PROJECT_DIR/cursor/AtmaWeapon/cursors" && ((passed_checks++))
+check_executable "$PROJECT_DIR/scripts/fix-cursor.sh" && ((passed_checks++))
+((total_checks+=4))
+
+# Check Terminal configuration
+echo -e "\n${YELLOW}Checking Terminal configuration...${NC}"
+check_file "$PROJECT_DIR/kitty/kitty.conf" && ((passed_checks++))
+check_file "$PROJECT_DIR/kitty/ff_sprite.py" && ((passed_checks++))
+check_executable "$PROJECT_DIR/scripts/fix-terminal-sprites.sh" && ((passed_checks++))
+((total_checks+=3))
+
+# Check Wallpaper configuration
+echo -e "\n${YELLOW}Checking Wallpaper configuration...${NC}"
+check_dir "$PROJECT_DIR/wallpapers" && ((passed_checks++))
+check_executable "$PROJECT_DIR/scripts/generate-wallpapers.sh" && ((passed_checks++))
+((total_checks+=2))
+
+# Check Scripts
+echo -e "\n${YELLOW}Checking Scripts...${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/toggle-ff6-menu.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to toggle the FF6 menu${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/toggle-theme.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to toggle between light and dark themes${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/wallpaper-switcher.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to switch wallpapers${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/volume.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to control volume${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/brightness.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to control brightness${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/lockscreen.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to lock the screen${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/logout.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script for logout menu${NC}"
+check_executable "$PROJECT_DIR/hypr/scripts/launch-waybar.sh" && ((passed_checks++)) || echo -e "${YELLOW}Note: Create this script to launch waybar${NC}"
+((total_checks+=8))
+
+# Calculate percentage
+percentage=$((passed_checks * 100 / total_checks))
+
+# Print summary
+echo -e "\n${BLUE}========================================${NC}"
+echo -e "${YELLOW}Validation Summary:${NC}"
+echo -e "Passed checks: ${GREEN}$passed_checks${NC} / ${BLUE}$total_checks${NC} (${GREEN}$percentage%${NC})"
+
+if [ $passed_checks -eq $total_checks ]; then
+    echo -e "${GREEN}All checks passed! The FF6-themed Hyprland configuration is complete.${NC}"
 else
-    echo -e "${RED}Not found${NC}"
-    echo -e "${YELLOW}Warning: Python is required for sprite conversion.${NC}"
+    echo -e "${YELLOW}Some checks failed. Please fix the issues before using the configuration.${NC}"
+    echo -e "${YELLOW}Note: You may need to create missing scripts or run the installation script.${NC}"
 fi
+echo -e "${BLUE}========================================${NC}"
 
-# Check for sprite files
-echo -e "${BLUE}Checking sprite files...${NC}"
-SPRITE_COUNT=$(ls -1 "$SPRITES_DIR"/*.png 2>/dev/null | wc -l)
-echo -e "${YELLOW}Found $SPRITE_COUNT sprite files in $SPRITES_DIR${NC}"
-if [ $SPRITE_COUNT -eq 0 ]; then
-    echo -e "${RED}Warning: No sprite files found.${NC}"
-fi
-
-# Check Hyprland configuration for errors
-echo -e "${BLUE}Checking Hyprland configuration for errors...${NC}"
-echo -ne "${YELLOW}Checking for 'new_is_master = true' setting... ${NC}"
-if grep -q "new_is_master = true" "$HYPR_DIR/hyprland.conf"; then
-    echo -e "${GREEN}Found${NC}"
+# Return success if all checks passed
+if [ $passed_checks -eq $total_checks ]; then
+    exit 0
 else
-    echo -e "${RED}Not found${NC}"
-    echo -e "${YELLOW}Warning: 'new_is_master = true' setting is missing in hyprland.conf.${NC}"
+    exit 1
 fi
-
-# Check waybar launch script
-echo -e "${BLUE}Checking waybar launch script...${NC}"
-echo -ne "${YELLOW}Checking for waybar launch script in hyprland.conf... ${NC}"
-if grep -q "exec-once = .*launch-waybar.sh" "$HYPR_DIR/hyprland.conf"; then
-    echo -e "${GREEN}Found${NC}"
-else
-    echo -e "${RED}Not found${NC}"
-    echo -e "${YELLOW}Warning: Waybar launch script is not configured in hyprland.conf.${NC}"
-fi
-
-# Final summary
-echo -e "${BLUE}=========================================${NC}"
-echo -e "${GREEN}Validation complete!${NC}"
-echo -e "${YELLOW}Please review any warnings or errors above.${NC}"
-echo -e "${BLUE}=========================================${NC}"

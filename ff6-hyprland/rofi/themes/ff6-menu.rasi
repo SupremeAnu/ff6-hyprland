@@ -1,0 +1,153 @@
+/* ---- 💫 FF6-Themed Hyprland Configuration - FF6 Menu Theme 💫 ---- */
+
+/* FF6 Menu Colors */
+* {
+    /* FF6 Menu Blue Colors */
+    ff6-blue-dark:      #0a1a3f;
+    ff6-blue:           #1a2a5f;
+    ff6-blue-light:     #3a4a8f;
+    ff6-blue-highlight: #4a5aaf;
+    
+    /* FF6 Menu Border Colors */
+    ff6-border:         #ffffff;
+    ff6-border-inner:   #d0d0ff;
+    
+    /* FF6 Text Colors */
+    ff6-text:           #ffffff;
+    ff6-text-selected:  #ffff80;
+    
+    /* Background and Foreground */
+    background:         @ff6-blue-dark;
+    background-alt:     @ff6-blue;
+    foreground:         @ff6-text;
+    selected:           @ff6-blue-highlight;
+    active:             @ff6-text-selected;
+    urgent:             #ff8080;
+}
+
+window {
+    transparency:       "real";
+    background-color:   @background;
+    text-color:         @foreground;
+    border:             2px;
+    border-color:       @ff6-border;
+    border-radius:      8px;
+    width:              40%;
+    location:           center;
+    x-offset:           0;
+    y-offset:           0;
+}
+
+prompt {
+    enabled:            true;
+    padding:            10px;
+    background-color:   @ff6-blue;
+    text-color:         @foreground;
+    border:             1px;
+    border-color:       @ff6-border-inner;
+    border-radius:      6px;
+}
+
+entry {
+    background-color:   @ff6-blue;
+    text-color:         @foreground;
+    placeholder-color:  @foreground;
+    expand:             true;
+    horizontal-align:   0;
+    placeholder:        "Search...";
+    padding:            10px;
+    border:             1px;
+    border-color:       @ff6-border-inner;
+    border-radius:      6px;
+    blink:              true;
+}
+
+inputbar {
+    children:           [ prompt, entry ];
+    background-color:   @background;
+    text-color:         @foreground;
+    expand:             false;
+    border:             0px;
+    border-radius:      0px;
+    border-color:       @ff6-border;
+    margin:             0px;
+    padding:            10px;
+}
+
+listview {
+    background-color:   @background;
+    padding:            10px;
+    columns:            1;
+    lines:              8;
+    spacing:            5px;
+    cycle:              true;
+    dynamic:            true;
+    layout:             vertical;
+    border:             1px;
+    border-color:       @ff6-border-inner;
+    border-radius:      6px;
+}
+
+mainbox {
+    background-color:   @background;
+    border:             0px;
+    border-radius:      0px;
+    border-color:       @ff6-border;
+    children:           [ inputbar, listview ];
+    spacing:            10px;
+    padding:            10px;
+}
+
+element {
+    background-color:   @background;
+    text-color:         @foreground;
+    orientation:        horizontal;
+    border-radius:      6px;
+    padding:            8px;
+}
+
+element-icon {
+    background-color:   transparent;
+    text-color:         inherit;
+    size:               24px;
+    border:             0px;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    expand:             true;
+    horizontal-align:   0;
+    vertical-align:     0.5;
+    margin:             0px 2.5px 0px 2.5px;
+}
+
+element selected {
+    background-color:   @selected;
+    text-color:         @active;
+    border:             1px;
+    border-radius:      6px;
+    border-color:       @ff6-border;
+}
+
+element.active,
+element.selected.urgent {
+    background-color:   @active;
+    text-color:         @background;
+    border-color:       @ff6-border;
+}
+
+element.selected.urgent {
+    border-color:       @urgent;
+}
+
+element.urgent,
+element.selected.active {
+    background-color:   @urgent;
+    text-color:         @background;
+    border-color:       @ff6-border;
+}
+
+element.selected.active {
+    border-color:       @active;
+}

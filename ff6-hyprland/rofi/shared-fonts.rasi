@@ -1,0 +1,7 @@
+/* ---- 💫 FF6-Themed Hyprland Configuration - Shared Fonts 💫 ---- */
+
+* {
+    font: "JetBrains Mono Nerd Font 10";
+    font-mono: "Fantastique Sans Mono Nerd Font 10";
+    font-bold: "Victor Mono Bold 10";
+}

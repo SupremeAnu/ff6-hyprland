@@ -1,0 +1,44 @@
+{
+  "include": [
+    "$HOME/.config/waybar/modules/standard.jsonc",
+    "$HOME/.config/waybar/modules/workspaces.jsonc",
+    "$HOME/.config/waybar/modules/custom.jsonc",
+    "$HOME/.config/waybar/modules/ff6-menu.jsonc"
+  ],
+  "layer": "top",
+  "position": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 32,
+  "spacing": 2,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
+  
+  "modules-left": [
+    "hyprland/workspaces",
+    "custom/separator#blank_2",
+    "group/ff6-menu"
+  ],
+  
+  "modules-center": [
+    "hyprland/window"
+  ],
+  
+  "modules-right": [
+    "network",
+    "bluetooth",
+    "custom/separator#blank",
+    "battery",
+    "backlight",
+    "pulseaudio",
+    "custom/separator#blank",
+    "group/system-monitors",
+    "custom/separator#blank",
+    "clock",
+    "tray",
+    "custom/separator#blank",
+    "group/power"
+  ]
+}

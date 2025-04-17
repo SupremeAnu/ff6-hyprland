@@ -1,5 +1,5 @@
 {
-  "hyprland/workspaces#ff6": {
+  "hyprland/workspaces": {
     "active-only": false,
     "all-outputs": true,
     "format": "{icon}",
@@ -8,7 +8,7 @@
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1",
     "persistent-workspaces": {
-      "*": 10
+      "*": 5
     },
     "format-icons": {
       "1": "Terra",
@@ -16,68 +16,67 @@
       "3": "Edgar",
       "4": "Sabin",
       "5": "Cyan",
-      "6": "Gau",
+      "6": "Shadow",
       "7": "Celes",
       "8": "Setzer",
-      "9": "Shadow",
-      "10": "Mog",
-      "active": "<span color='#FFD700'>{icon}</span>",
-      "default": "{icon}"
+      "9": "Mog",
+      "10": "Kefka",
+      "urgent": "",
+      "focused": "",
+      "default": ""
     }
   },
   
-  "wlr/taskbar": {
-    "format": "{icon} {name}",
-    "icon-size": 16,
-    "all-outputs": false,
-    "tooltip-format": "{title}",
-    "on-click": "activate",
-    "on-click-middle": "close",
-    "ignore-list": [
-      "wofi",
-      "rofi",
-      "kitty-dropterm"
-    ]
-  },
-  
-  "tray": {
-    "icon-size": 20,
-    "spacing": 4
-  },
-  
-  "custom/updater": {
-    "format": "󰚰 {}",
-    "exec": "checkupdates | wc -l",
-    "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
-    "interval": 15,
-    "on-click": "kitty -e yay -Syu"
-  },
-  
-  "group/notify": {
-    "orientation": "horizontal",
-    "modules": [
-      "custom/notification"
-    ]
-  },
-  
-  "custom/notification": {
-    "tooltip": false,
+  "hyprland/workspaces#icons": {
+    "active-only": false,
+    "all-outputs": true,
     "format": "{icon}",
-    "format-icons": {
-      "notification": "<span foreground='#ff7700'></span>",
-      "none": "",
-      "dnd-notification": "<span foreground='#ff0000'></span>",
-      "dnd-none": "",
-      "inhibited-notification": "<span foreground='#f38ba8'></span>",
-      "inhibited-none": "",
-      "dnd-inhibited-notification": "<span foreground='#ff0000'></span>",
-      "dnd-inhibited-none": ""
+    "show-special": false,
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 5
     },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": "",
+      "10": "",
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    }
+  },
+  
+  "hyprland/workspaces#numbers": {
+    "active-only": false,
+    "all-outputs": true,
+    "format": "{icon}",
+    "show-special": false,
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 5
+    },
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10"
+    }
   }
 }
