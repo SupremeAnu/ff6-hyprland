@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to update the installer to include validation and fix common issues
+# Script to update the installer with all necessary dependencies
 # Part of FF6 Hyprland Configuration
 
 # ANSI color codes
@@ -10,201 +10,137 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Config paths
-CONFIG_DIR="$HOME/.config"
-HYPR_DIR="$CONFIG_DIR/hypr"
-WAYBAR_DIR="$CONFIG_DIR/waybar"
+INSTALLER_PATH="/home/ubuntu/hyprland-crimson-config/install.sh"
+BACKUP_PATH="/home/ubuntu/hyprland-crimson-config/install.sh.bak"
 
 # Print header
 echo -e "${BLUE}=========================================${NC}"
-echo -e "${BLUE}  FF6 Hyprland Installer Updater        ${NC}"
+echo -e "${BLUE}  FF6 Installer Update                  ${NC}"
 echo -e "${BLUE}=========================================${NC}"
 echo
 
-# Function to check if Waybar is running
-check_waybar_running() {
-    if pgrep -x "waybar" > /dev/null; then
-        echo -e "${GREEN}Waybar is running.${NC}"
-        return 0
-    else
-        echo -e "${RED}Waybar is not running.${NC}"
-        return 1
-    fi
-}
+# Backup the original installer
+echo -e "${YELLOW}Backing up original installer...${NC}"
+cp "$INSTALLER_PATH" "$BACKUP_PATH"
+echo -e "${GREEN}Backup created at $BACKUP_PATH${NC}"
 
-# Function to restart Waybar
-restart_waybar() {
-    echo -e "${YELLOW}Restarting Waybar...${NC}"
-    killall waybar 2>/dev/null
-    sleep 1
-    waybar -c "$WAYBAR_DIR/config-top.jsonc" & disown
-    waybar -c "$WAYBAR_DIR/config-bottom.jsonc" & disown
-    echo -e "${GREEN}Waybar restarted.${NC}"
-}
+# Update the installer with additional dependencies
+echo -e "${YELLOW}Updating installer with additional dependencies...${NC}"
 
-# Function to check Hyprland configuration
-check_hyprland_config() {
-    echo -e "${YELLOW}Checking Hyprland configuration...${NC}"
-    if command -v hyprctl &> /dev/null; then
-        ERRORS=$(hyprctl reload 2>&1 | grep -c "error")
-        if [ "$ERRORS" -gt 0 ]; then
-            echo -e "${RED}Found $ERRORS errors in Hyprland configuration.${NC}"
-            hyprctl reload 2>&1 | grep "error"
-            return 1
-        else
-            echo -e "${GREEN}Hyprland configuration is valid.${NC}"
-            return 0
-        fi
-    else
-        echo -e "${RED}Hyprland is not installed or not in PATH.${NC}"
-        return 1
-    fi
-}
+# Add Python and PIL/Pillow to the package list
+sed -i '/^PACKAGES=(/,/)/ s/)$/    "python"\n    "python-pip"\n    "imagemagick"\n    "jq"\n)/' "$INSTALLER_PATH"
 
-# Function to fix common Hyprland configuration issues
-fix_hyprland_config() {
-    echo -e "${YELLOW}Fixing common Hyprland configuration issues...${NC}"
-    
-    # Check for decoration shadow syntax
-    if grep -q "drop_shadow" "$HYPR_DIR/hyprland.conf" && ! grep -q "shadow {" "$HYPR_DIR/hyprland.conf"; then
-        echo -e "${YELLOW}Fixing decoration shadow syntax...${NC}"
-        sed -i 's/drop_shadow = true/shadow {\n    enabled = true/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/shadow_range = \([0-9]*\)/    range = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/shadow_render_power = \([0-9]*\)/    render_power = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/shadow_ignore_window = \(true\|false\)/    ignore_window = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/shadow_offset = \([0-9]* [0-9]*\)/    offset = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/shadow_scale = \([0-9.]*\)/    scale = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/col.shadow = \(0x[0-9a-fA-F]*\)/    color = \1\n}/g' "$HYPR_DIR/hyprland.conf"
-        echo -e "${GREEN}Decoration shadow syntax fixed.${NC}"
-    fi
-    
-    # Check for blur syntax
-    if grep -q "blur =" "$HYPR_DIR/hyprland.conf" && ! grep -q "blur {" "$HYPR_DIR/hyprland.conf"; then
-        echo -e "${YELLOW}Fixing blur syntax...${NC}"
-        sed -i 's/blur = \(true\|false\)/blur {\n    enabled = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/blur_size = \([0-9]*\)/    size = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/blur_passes = \([0-9]*\)/    passes = \1/g' "$HYPR_DIR/hyprland.conf"
-        sed -i 's/blur_new_optimizations = \(true\|false\)/    new_optimizations = \1\n}/g' "$HYPR_DIR/hyprland.conf"
-        echo -e "${GREEN}Blur syntax fixed.${NC}"
-    fi
-    
-    echo -e "${GREEN}Hyprland configuration fixes applied.${NC}"
-}
-
-# Function to check Waybar configuration
-check_waybar_config() {
-    echo -e "${YELLOW}Checking Waybar configuration...${NC}"
-    
-    # Check top config
-    if [ -f "$WAYBAR_DIR/config-top.jsonc" ]; then
-        if grep -q "wlr/taskbar" "$WAYBAR_DIR/config-top.jsonc"; then
-            echo -e "${RED}Found outdated wlr/taskbar module in top config.${NC}"
-            return 1
-        fi
-    else
-        echo -e "${RED}Waybar top config not found.${NC}"
-        return 1
-    fi
-    
-    # Check bottom config
-    if [ -f "$WAYBAR_DIR/config-bottom.jsonc" ]; then
-        if ! grep -q "hyprland/workspaces" "$WAYBAR_DIR/config-bottom.jsonc"; then
-            echo -e "${RED}Missing hyprland/workspaces module in bottom config.${NC}"
-            return 1
-        fi
-    else
-        echo -e "${RED}Waybar bottom config not found.${NC}"
-        return 1
-    fi
-    
-    echo -e "${GREEN}Waybar configuration is valid.${NC}"
-    return 0
-}
-
-# Function to fix common Waybar configuration issues
-fix_waybar_config() {
-    echo -e "${YELLOW}Fixing common Waybar configuration issues...${NC}"
-    
-    # Fix top config
-    if [ -f "$WAYBAR_DIR/config-top.jsonc" ]; then
-        if grep -q "wlr/taskbar" "$WAYBAR_DIR/config-top.jsonc"; then
-            echo -e "${YELLOW}Replacing wlr/taskbar with hyprland/workspaces in top config...${NC}"
-            sed -i 's/"wlr\/taskbar"/"hyprland\/workspaces"/g' "$WAYBAR_DIR/config-top.jsonc"
-            echo -e "${GREEN}Top config fixed.${NC}"
-        fi
-        
-        # Add required properties if missing
-        if ! grep -q "exclusive" "$WAYBAR_DIR/config-top.jsonc"; then
-            echo -e "${YELLOW}Adding exclusive property to top config...${NC}"
-            sed -i '/"position": "top",/a \    "exclusive": true,' "$WAYBAR_DIR/config-top.jsonc"
-        fi
-        
-        if ! grep -q "passthrough" "$WAYBAR_DIR/config-top.jsonc"; then
-            echo -e "${YELLOW}Adding passthrough property to top config...${NC}"
-            sed -i '/"exclusive": true,/a \    "passthrough": false,' "$WAYBAR_DIR/config-top.jsonc"
-        fi
-        
-        if ! grep -q "gtk-layer-shell" "$WAYBAR_DIR/config-top.jsonc"; then
-            echo -e "${YELLOW}Adding gtk-layer-shell property to top config...${NC}"
-            sed -i '/"passthrough": false,/a \    "gtk-layer-shell": true,' "$WAYBAR_DIR/config-top.jsonc"
-        fi
-    fi
-    
-    # Fix bottom config
-    if [ -f "$WAYBAR_DIR/config-bottom.jsonc" ]; then
-        # Add required properties if missing
-        if ! grep -q "exclusive" "$WAYBAR_DIR/config-bottom.jsonc"; then
-            echo -e "${YELLOW}Adding exclusive property to bottom config...${NC}"
-            sed -i '/"position": "bottom",/a \    "exclusive": true,' "$WAYBAR_DIR/config-bottom.jsonc"
-        fi
-        
-        if ! grep -q "passthrough" "$WAYBAR_DIR/config-bottom.jsonc"; then
-            echo -e "${YELLOW}Adding passthrough property to bottom config...${NC}"
-            sed -i '/"exclusive": true,/a \    "passthrough": false,' "$WAYBAR_DIR/config-bottom.jsonc"
-        fi
-        
-        if ! grep -q "gtk-layer-shell" "$WAYBAR_DIR/config-bottom.jsonc"; then
-            echo -e "${YELLOW}Adding gtk-layer-shell property to bottom config...${NC}"
-            sed -i '/"passthrough": false,/a \    "gtk-layer-shell": true,' "$WAYBAR_DIR/config-bottom.jsonc"
-        fi
-        
-        # Add persistent workspaces if missing
-        if ! grep -q "persistent-workspaces" "$WAYBAR_DIR/config-bottom.jsonc"; then
-            echo -e "${YELLOW}Adding persistent-workspaces to bottom config...${NC}"
-            sed -i '/"sort-by-number": true,/a \        "persistent-workspaces": {\n            "*": 5\n        }' "$WAYBAR_DIR/config-bottom.jsonc"
-        fi
-    fi
-    
-    echo -e "${GREEN}Waybar configuration fixes applied.${NC}"
-}
-
-# Check and fix Hyprland configuration
-if ! check_hyprland_config; then
-    fix_hyprland_config
-    check_hyprland_config
-fi
-
-# Check and fix Waybar configuration
-if ! check_waybar_config; then
-    fix_waybar_config
-    check_waybar_config
-fi
-
-# Restart Waybar if it was running
-if check_waybar_running; then
-    restart_waybar
-fi
-
-# Run dotfile validation
-if [ -f "scripts/validate-dotfiles.sh" ]; then
-    echo -e "${YELLOW}Running dotfile validation...${NC}"
-    chmod +x "scripts/validate-dotfiles.sh"
-    ./scripts/validate-dotfiles.sh
+# Add a section to install PIL/Pillow after the package installation
+PILLOW_INSTALL_CODE='
+# Install Python packages
+echo -e "${BLUE}Installing Python packages...${NC}"
+if command -v pip3 &> /dev/null; then
+    echo -e "${YELLOW}Installing Pillow for sprite conversion...${NC}"
+    pip3 install --user Pillow
+    echo -e "${GREEN}Pillow installed.${NC}"
 else
-    echo -e "${RED}Dotfile validation script not found.${NC}"
+    echo -e "${YELLOW}Warning: pip3 not found. Skipping Pillow installation.${NC}"
+    echo -e "${YELLOW}You may need to install Pillow manually for sprite conversion.${NC}"
+fi
+'
+
+# Find the position to insert the code (after package installation)
+INSERT_LINE=$(grep -n "if \[ \$INSTALL_ERRORS -gt 0 \]; then" "$INSTALLER_PATH" | cut -d: -f1)
+if [ -n "$INSERT_LINE" ]; then
+    # Insert the code after the package installation section
+    sed -i "${INSERT_LINE}i\\${PILLOW_INSTALL_CODE}" "$INSTALLER_PATH"
+    echo -e "${GREEN}Added Python package installation section.${NC}"
+else
+    echo -e "${RED}Error: Could not find the appropriate position to insert code.${NC}"
+    echo -e "${YELLOW}Please add the following code manually after package installation:${NC}"
+    echo -e "$PILLOW_INSTALL_CODE"
 fi
 
-# Final message
+# Add a section to run the sprite integration script
+SPRITE_INTEGRATION_CODE='
+# Integrate FF6 sprites
+echo -e "${BLUE}Integrating FF6 sprites...${NC}"
+if [ -f "$DOTFILES_DIR/.config/hypr/scripts/integrate-sprites.sh" ]; then
+    chmod +x "$DOTFILES_DIR/.config/hypr/scripts/integrate-sprites.sh"
+    "$DOTFILES_DIR/.config/hypr/scripts/integrate-sprites.sh"
+    echo -e "${GREEN}FF6 sprites integrated.${NC}"
+else
+    echo -e "${YELLOW}Warning: Sprite integration script not found.${NC}"
+    echo -e "${YELLOW}You may need to run the script manually after installation.${NC}"
+fi
+'
+
+# Find the position to insert the code (before the final message)
+INSERT_LINE=$(grep -n "echo -e \"${GREEN}Installation completed successfully!\"" "$INSTALLER_PATH" | cut -d: -f1)
+if [ -n "$INSERT_LINE" ]; then
+    # Insert the code before the final message
+    sed -i "${INSERT_LINE}i\\${SPRITE_INTEGRATION_CODE}" "$INSTALLER_PATH"
+    echo -e "${GREEN}Added sprite integration section.${NC}"
+else
+    echo -e "${RED}Error: Could not find the appropriate position to insert code.${NC}"
+    echo -e "${YELLOW}Please add the following code manually before the final message:${NC}"
+    echo -e "$SPRITE_INTEGRATION_CODE"
+fi
+
+# Add a section to run the waybar fix script
+WAYBAR_FIX_CODE='
+# Fix waybar configuration
+echo -e "${BLUE}Fixing waybar configuration...${NC}"
+if [ -f "$DOTFILES_DIR/.config/hypr/scripts/launch-waybar.sh" ]; then
+    chmod +x "$DOTFILES_DIR/.config/hypr/scripts/launch-waybar.sh"
+    echo -e "${GREEN}Waybar launch script is ready.${NC}"
+else
+    echo -e "${YELLOW}Creating waybar launch script...${NC}"
+    mkdir -p "$DOTFILES_DIR/.config/hypr/scripts"
+    cat > "$DOTFILES_DIR/.config/hypr/scripts/launch-waybar.sh" << '\''EOF'\''
+#!/bin/bash
+
+# Kill any existing waybar instances
+killall waybar 2>/dev/null
+
+# Wait a moment to ensure previous instances are closed
+sleep 0.5
+
+# Launch waybar with proper environment
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=Hyprland
+
+# Launch waybar in the background
+waybar &
+
+# Log the launch
+echo "Waybar launched at $(date)" >> ~/.config/hypr/waybar-launch.log
+EOF
+    chmod +x "$DOTFILES_DIR/.config/hypr/scripts/launch-waybar.sh"
+    echo -e "${GREEN}Waybar launch script created.${NC}"
+fi
+
+# Update hyprland.conf to use the launch script
+if [ -f "$DOTFILES_DIR/.config/hypr/hyprland.conf" ]; then
+    if grep -q "^exec-once = waybar" "$DOTFILES_DIR/.config/hypr/hyprland.conf"; then
+        sed -i '\''s|^exec-once = waybar.*|exec-once = ~/.config/hypr/scripts/launch-waybar.sh|g'\'' "$DOTFILES_DIR/.config/hypr/hyprland.conf"
+    else
+        echo "exec-once = ~/.config/hypr/scripts/launch-waybar.sh" >> "$DOTFILES_DIR/.config/hypr/hyprland.conf"
+    fi
+    echo -e "${GREEN}Updated hyprland.conf to use the waybar launch script.${NC}"
+fi
+'
+
+# Find the position to insert the code (before the sprite integration)
+INSERT_LINE=$(grep -n "# Integrate FF6 sprites" "$INSTALLER_PATH" | cut -d: -f1)
+if [ -n "$INSERT_LINE" ]; then
+    # Insert the code before the sprite integration
+    sed -i "${INSERT_LINE}i\\${WAYBAR_FIX_CODE}" "$INSTALLER_PATH"
+    echo -e "${GREEN}Added waybar fix section.${NC}"
+else
+    echo -e "${RED}Error: Could not find the appropriate position to insert code.${NC}"
+    echo -e "${YELLOW}Please add the following code manually before the sprite integration:${NC}"
+    echo -e "$WAYBAR_FIX_CODE"
+fi
+
+# Final summary
 echo -e "${BLUE}=========================================${NC}"
 echo -e "${GREEN}Installer update complete!${NC}"
-echo -e "${YELLOW}The installer has been updated to include validation and fix common issues.${NC}"
+echo -e "${YELLOW}The installer now includes all necessary dependencies and scripts.${NC}"
 echo -e "${BLUE}=========================================${NC}"
