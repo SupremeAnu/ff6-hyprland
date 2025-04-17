@@ -18,7 +18,6 @@ export FF6_THEME_TEXT="#FFFFFF"
 export FF6_THEME_HIGHLIGHT="#FFD700"
 
 # Launch waybar with our configuration
-waybar -c ~/.config/waybar/config-top.jsonc -s ~/.config/waybar/style.css &
-waybar -c ~/.config/waybar/config-bottom.jsonc -s ~/.config/waybar/style.css &
+waybar -c ~/.config/waybar/config.jsonc -s ~/.config/waybar/style.css &
 
 echo "Waybar launched with FF6 theme!"

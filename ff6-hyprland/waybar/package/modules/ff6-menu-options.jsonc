@@ -1,0 +1,115 @@
+{
+    // FF6-themed menu modules for waybar
+    // These modules display menu options in the style of FF6 menu
+    
+    "custom/items": {
+        "format": "Items",
+        "tooltip": false,
+        "on-click": "rofi -show drun -modi run,drun,filebrowser,window",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh",
+        "tooltip-format": "Application Launcher"
+    },
+    
+    "custom/abilities": {
+        "format": "Abilities",
+        "tooltip": false,
+        "on-click": "$HOME/.config/hypr/scripts/DarkLight.sh",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarStyles.sh",
+        "tooltip-format": "Left Click: Switch Dark/Light Theme\nRight Click: Waybar Styles"
+    },
+    
+    "custom/equip": {
+        "format": "Equip",
+        "tooltip": false,
+        "on-click": "pavucontrol",
+        "tooltip-format": "Audio Settings"
+    },
+    
+    "custom/relics": {
+        "format": "Relics",
+        "tooltip": false,
+        "on-click": "nm-connection-editor",
+        "tooltip-format": "Network Settings"
+    },
+    
+    "custom/status": {
+        "format": "Status",
+        "tooltip": false,
+        "on-click": "blueman-manager",
+        "tooltip-format": "Bluetooth Settings"
+    },
+    
+    "custom/formation": {
+        "format": "Formation",
+        "tooltip": false,
+        "on-click": "$HOME/.config/hypr/scripts/Wlogout.sh",
+        "tooltip-format": "Logout Menu"
+    },
+    
+    "custom/config": {
+        "format": "Config",
+        "tooltip": false,
+        "on-click": "nemo",
+        "tooltip-format": "File Manager"
+    },
+    
+    "custom/quicksave": {
+        "format": "Quicksave",
+        "tooltip": false,
+        "on-click": "$HOME/.config/hypr/scripts/LockScreen.sh",
+        "tooltip-format": "Lock Screen"
+    },
+    
+    "custom/save": {
+        "format": "Save",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch exit",
+        "tooltip-format": "Logout"
+    },
+    
+    "custom/overworld": {
+        "format": "Overworld",
+        "tooltip": false,
+        "on-click": "steam",
+        "tooltip-format": "Launch Steam"
+    },
+    
+    "custom/time": {
+        "interval": 60,
+        "format": "<span color='#00FFFF'>Time</span>",
+        "tooltip": false
+    },
+    
+    "custom/steps": {
+        "interval": 60,
+        "format": "<span color='#00FFFF'>Steps</span>",
+        "tooltip": false
+    },
+    
+    "custom/gil": {
+        "interval": 60,
+        "format": "<span color='#00FFFF'>Gil</span>",
+        "tooltip": false
+    },
+    
+    "clock": {
+        "interval": 60,
+        "format": "{:%H:%M}",
+        "tooltip": true,
+        "tooltip-format": "{:%A, %B %d, %Y}"
+    },
+    
+    "custom/uptime": {
+        "interval": 60,
+        "exec": "uptime -p | sed 's/up //; s/ hours,/h/; s/ minutes/m/'",
+        "format": "{}",
+        "tooltip": false
+    },
+    
+    "custom/disk_free": {
+        "interval": 300,
+        "exec": "df -h / | awk 'NR==2 {print $4}'",
+        "format": "{}",
+        "tooltip": false
+    }
+}

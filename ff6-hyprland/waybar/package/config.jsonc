@@ -1,8 +1,11 @@
+/* FF6-themed Waybar Configuration - Main Layout */
+/* Based on the Final Fantasy VI menu system */
+
 [
   {
     "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-character-stats.jsonc",
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-menu-options.jsonc"
     ],
     "name": "ff6-top-bar",
     "layer": "top",
@@ -43,8 +46,8 @@
   
   {
     "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-character-stats.jsonc",
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-menu-options.jsonc"
     ],
     "name": "ff6-middle-bar",
     "layer": "top",
@@ -76,9 +79,8 @@
   
   {
     "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc",
-      "modules/ff6-menu-drawer.jsonc"
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-character-stats.jsonc",
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-menu-options.jsonc"
     ],
     "name": "ff6-bottom-bar",
     "layer": "top",
@@ -94,7 +96,6 @@
     "reload_style_on_change": true,
     
     "modules-left": [
-      "group/ff6_menu_drawer",
       "custom/edgar",
       "custom/edgar_lv", "hyprland/workspaces",
       "custom/edgar_hp", "battery"
@@ -109,8 +110,8 @@
   
   {
     "include": [
-      "modules/ff6-character-stats.jsonc",
-      "modules/ff6-menu-options.jsonc"
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-character-stats.jsonc",
+      "/home/ubuntu/hyprland-crimson-config/waybar/modules/ff6-menu-options.jsonc"
     ],
     "name": "ff6-system-bar",
     "layer": "top",
