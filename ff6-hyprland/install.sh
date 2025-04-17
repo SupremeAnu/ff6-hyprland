@@ -426,10 +426,10 @@ install_sound_effects() {
     # Confirm sound (happy chime)
     sox -n "$SOUNDS_DIR/confirm.wav" synth 0.1 sine 1000 synth 0.1 sine 1200 synth 0.1 sine 1500 fade 0 0.3 0.1
     
-    # Cancel sound (error beep)
-    sox -n "$SOUNDS_DIR/cancel.wav" synth 0.2 sine 800:400 fade 0 0.2 0.05
+    # Cancel sound (negative tone)
+    sox -n "$SOUNDS_DIR/cancel.wav" synth 0.15 sine 1000:700 fade 0 0.15 0.05
     
-    echo -e "${GREEN}Sound effects installed.${NC}"
+    echo -e "${GREEN}FF6 sound effects created.${NC}"
 }
 
 # Function to install FF6 sprites
@@ -437,66 +437,58 @@ install_ff6_sprites() {
     echo -e "${BLUE}Installing FF6 character sprites...${NC}"
     create_dir "$SPRITES_DIR"
     
-    # Check if the sprites directory is empty
-    if [ -z "$(ls -A "$SPRITES_DIR" 2>/dev/null)" ]; then
-        echo -e "${YELLOW}No sprites found. Creating default FF6 sprites...${NC}"
-        
-        # Check if Python and Pillow are installed
-        if ! command_exists python && ! command_exists python3; then
-            echo -e "${YELLOW}Python not found. Installing...${NC}"
-            install_package "python"
-        fi
-        
-        # Install Pillow if not already installed
-        install_python_packages
-        
-        # Create a simple script to generate placeholder sprites
+    # Check if sprites already exist
+    if [ ! -f "$SPRITES_DIR/terra.png" ] || [ ! -f "$SPRITES_DIR/locke.png" ] || [ ! -f "$SPRITES_DIR/edgar.png" ]; then
+        # Create a Python script to generate sprites
         local SPRITE_SCRIPT="$SPRITES_DIR/generate_sprites.py"
         cat > "$SPRITE_SCRIPT" << 'EOF'
 #!/usr/bin/env python3
 from PIL import Image, ImageDraw
 import os
 
-# Define character colors
-CHARACTERS = {
-    "terra": {"hair": (0, 255, 128), "skin": (255, 200, 150), "outfit": (255, 0, 0)},
-    "locke": {"hair": (200, 200, 100), "skin": (255, 200, 150), "outfit": (0, 0, 255)},
-    "edgar": {"hair": (255, 255, 0), "skin": (255, 200, 150), "outfit": (0, 0, 200)},
-    "sabin": {"hair": (255, 255, 0), "skin": (255, 200, 150), "outfit": (150, 100, 0)},
-    "celes": {"hair": (255, 255, 150), "skin": (255, 200, 150), "outfit": (0, 100, 255)},
-    "setzer": {"hair": (200, 200, 200), "skin": (255, 200, 150), "outfit": (100, 0, 100)},
-    "shadow": {"hair": (50, 50, 50), "skin": (255, 200, 150), "outfit": (0, 0, 0)},
-    "cyan": {"hair": (0, 0, 100), "skin": (255, 200, 150), "outfit": (100, 0, 0)},
-    "gau": {"hair": (150, 150, 0), "skin": (255, 200, 150), "outfit": (0, 150, 0)},
-    "mog": {"hair": (255, 255, 255), "skin": (255, 200, 255), "outfit": (255, 100, 200)},
-}
+# Define sprite directory
+sprite_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Create sprites directory
-sprites_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Generate simple pixel art sprites for each character
-for name, colors in CHARACTERS.items():
-    # Create a 24x32 pixel image (typical FF sprite size)
-    img = Image.new('RGBA', (24, 32), (0, 0, 0, 0))
+# Function to create a simple FF6-style sprite
+def create_sprite(filename, primary_color, secondary_color, hair_color):
+    # Create a transparent image
+    img = Image.new('RGBA', (32, 32), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     
-    # Draw a simple character silhouette
-    # Head
-    draw.rectangle([(8, 2), (16, 10)], fill=colors["skin"], outline=(0, 0, 0))
-    # Hair
-    draw.rectangle([(7, 1), (17, 5)], fill=colors["hair"], outline=(0, 0, 0))
-    # Body
-    draw.rectangle([(7, 11), (17, 24)], fill=colors["outfit"], outline=(0, 0, 0))
-    # Arms
-    draw.rectangle([(5, 12), (7, 20)], fill=colors["skin"], outline=(0, 0, 0))
-    draw.rectangle([(17, 12), (19, 20)], fill=colors["skin"], outline=(0, 0, 0))
-    # Legs
-    draw.rectangle([(8, 25), (11, 31)], fill=colors["outfit"], outline=(0, 0, 0))
-    draw.rectangle([(13, 25), (16, 31)], fill=colors["outfit"], outline=(0, 0, 0))
+    # Draw face
+    draw.ellipse((8, 6, 24, 22), fill=primary_color)
+    
+    # Draw hair
+    draw.rectangle((6, 4, 26, 12), fill=hair_color)
+    
+    # Draw eyes
+    draw.ellipse((12, 12, 15, 14), fill=(0, 0, 0))
+    draw.ellipse((19, 12, 22, 14), fill=(0, 0, 0))
+    
+    # Draw mouth
+    draw.line((14, 18, 18, 18), fill=(0, 0, 0), width=1)
+    
+    # Draw body
+    draw.rectangle((10, 22, 22, 30), fill=secondary_color)
     
     # Save the sprite
-    img.save(os.path.join(sprites_dir, f"{name}.png"))
-    print(f"Created sprite for {name}")
+    img.save(os.path.join(sprite_dir, filename))
+    print(f"Created sprite: {filename}")
+
+# Create Terra sprite (green hair)
+create_sprite("terra.png", (255, 223, 196), (255, 0, 0), (0, 200, 100))
+
+# Create Locke sprite (blonde)
+create_sprite("locke.png", (255, 223, 196), (0, 0, 255), (240, 220, 130))
+
+# Create Edgar sprite (blonde)
+create_sprite("edgar.png", (255, 223, 196), (0, 100, 200), (240, 220, 130))
+
+# Create Celes sprite (blonde)
+create_sprite("celes.png", (255, 223, 196), (255, 255, 255), (240, 220, 130))
+
+# Create Setzer sprite (silver hair)
+create_sprite("setzer.png", (255, 223, 196), (100, 0, 100), (200, 200, 200))
 
 print("All sprites generated successfully!")
 EOF
@@ -590,6 +582,351 @@ Inherits=Adwaita
 EOF
     
     echo -e "${GREEN}FF6 Atma Weapon cursor theme installed.${NC}"
+}
+
+# Function to install FF6-themed waybar configuration
+install_ff6_waybar() {
+    echo -e "${BLUE}Installing FF6-themed waybar configuration...${NC}"
+    
+    # Create necessary directories
+    create_dir "$WAYBAR_DIR"
+    create_dir "$WAYBAR_DIR/modules"
+    create_dir "$WAYBAR_DIR/portraits"
+    
+    # Copy waybar configuration files
+    echo -e "${YELLOW}Copying waybar configuration files...${NC}"
+    
+    # Main configuration files
+    cp -f waybar/config.jsonc "$WAYBAR_DIR/"
+    cp -f waybar/style.css "$WAYBAR_DIR/"
+    
+    # Module files
+    cp -f waybar/modules/ff6-character-stats.jsonc "$WAYBAR_DIR/modules/"
+    cp -f waybar/modules/ff6-menu-options.jsonc "$WAYBAR_DIR/modules/"
+    cp -f waybar/modules/ff6-menu-drawer.jsonc "$WAYBAR_DIR/modules/"
+    
+    # Copy character sprites for portraits if they exist
+    if [ -d "$SPRITES_DIR" ]; then
+        echo -e "${YELLOW}Copying character sprites for waybar portraits...${NC}"
+        cp -f "$SPRITES_DIR/terra.png" "$WAYBAR_DIR/portraits/" 2>/dev/null || true
+        cp -f "$SPRITES_DIR/locke.png" "$WAYBAR_DIR/portraits/gannon.png" 2>/dev/null || true
+        cp -f "$SPRITES_DIR/edgar.png" "$WAYBAR_DIR/portraits/" 2>/dev/null || true
+    fi
+    
+    # Create API server script for system information
+    echo -e "${YELLOW}Creating system API server for character portraits...${NC}"
+    cat > "$WAYBAR_DIR/modules/system-api-server.py" << 'EOF'
+#!/usr/bin/env python3
+import http.server
+import socketserver
+import json
+import psutil
+import os
+import subprocess
+import threading
+import time
+
+PORT = 9000
+
+# Cache for system data
+cache = {
+    'cpu': {'usage': 0},
+    'memory': {'used': 0, 'total': 0},
+    'disk': {'used': 0, 'total': 0},
+    'network': {'activity': 0},
+    'temperature': {'temperature': 0},
+    'workspace': {'active': 1},
+    'battery': {'percentage': 100}
+}
+
+# Update system data in background
+def update_system_data():
+    while True:
+        try:
+            # CPU usage
+            cache['cpu']['usage'] = psutil.cpu_percent()
+            
+            # Memory usage
+            mem = psutil.virtual_memory()
+            cache['memory']['used'] = mem.used / (1024 * 1024 * 1024)  # GB
+            cache['memory']['total'] = mem.total / (1024 * 1024 * 1024)  # GB
+            
+            # Disk usage
+            disk = psutil.disk_usage('/')
+            cache['disk']['used'] = disk.used / (1024 * 1024 * 1024)  # GB
+            cache['disk']['total'] = disk.total / (1024 * 1024 * 1024)  # GB
+            
+            # Network activity (simplified)
+            net_io = psutil.net_io_counters()
+            cache['network']['activity'] = (net_io.bytes_sent + net_io.bytes_recv) / (1024 * 1024)  # MB
+            
+            # Temperature (simplified)
+            if hasattr(psutil, "sensors_temperatures"):
+                temps = psutil.sensors_temperatures()
+                if temps and 'coretemp' in temps:
+                    cache['temperature']['temperature'] = temps['coretemp'][0].current
+            
+            # Active workspace (using hyprctl)
+            try:
+                result = subprocess.run(['hyprctl', 'activeworkspace', '-j'], 
+                                       capture_output=True, text=True, check=True)
+                workspace_data = json.loads(result.stdout)
+                cache['workspace']['active'] = workspace_data.get('id', 1)
+            except:
+                cache['workspace']['active'] = 1
+            
+            # Battery percentage
+            if hasattr(psutil, "sensors_battery"):
+                battery = psutil.sensors_battery()
+                if battery:
+                    cache['battery']['percentage'] = battery.percent
+        except Exception as e:
+            print(f"Error updating system data: {e}")
+        
+        time.sleep(2)  # Update every 2 seconds
+
+# Start background thread for updating system data
+update_thread = threading.Thread(target=update_system_data, daemon=True)
+update_thread.start()
+
+class SystemAPIHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        
+        path = self.path.strip('/')
+        
+        if path in cache:
+            self.wfile.write(json.dumps(cache[path]).encode())
+        else:
+            self.wfile.write(json.dumps({'error': 'Not found'}).encode())
+    
+    def log_message(self, format, *args):
+        # Suppress log messages
+        return
+
+def run_server():
+    with socketserver.TCPServer(("localhost", PORT), SystemAPIHandler) as httpd:
+        print(f"Serving at port {PORT}")
+        httpd.serve_forever()
+
+if __name__ == "__main__":
+    run_server()
+EOF
+    
+    # Make the API server executable
+    chmod +x "$WAYBAR_DIR/modules/system-api-server.py"
+    
+    # Create launch script for waybar
+    echo -e "${YELLOW}Creating waybar launch script...${NC}"
+    cat > "$HYPR_DIR/scripts/launch-waybar.sh" << 'EOF'
+#!/bin/bash
+# Script to launch waybar with FF6 theme
+
+# Kill any existing waybar instances
+killall waybar
+
+# Wait a moment
+sleep 0.5
+
+# Start the system API server if it's not already running
+if ! pgrep -f "system-api-server.py" > /dev/null; then
+    ~/.config/waybar/modules/system-api-server.py &
+fi
+
+# Launch waybar with the FF6 configuration
+waybar -c ~/.config/waybar/config.jsonc &
+
+# Play menu open sound if available
+if [ -f ~/.config/hypr/sounds/menu_open.wav ] && command -v paplay >/dev/null 2>&1; then
+    paplay ~/.config/hypr/sounds/menu_open.wav &
+fi
+
+exit 0
+EOF
+    
+    # Make the launch script executable
+    chmod +x "$HYPR_DIR/scripts/launch-waybar.sh"
+    
+    # Create HTML files for character portraits
+    echo -e "${YELLOW}Creating HTML files for character portraits...${NC}"
+    
+    # Terra portrait
+    cat > "$WAYBAR_DIR/modules/terra-portrait.html" << 'EOF'
+<div class="character-portrait">
+  <img src="~/.config/waybar/portraits/terra.png" alt="Terra" width="48" height="48"/>
+  <div class="character-info">
+    <div class="name">Terra</div>
+    <div class="stats">
+      <div class="stat"><span class="label">LV</span> <span class="value" id="cpu-level">0</span></div>
+      <div class="stat"><span class="label">HP</span> <span class="value" id="memory-used">0</span>/<span id="memory-total">0</span></div>
+      <div class="stat"><span class="label">MP</span> <span class="value" id="disk-used">0</span>/<span id="disk-total">0</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  // Update CPU level (1-99 based on CPU usage)
+  function updateCpuLevel() {
+    fetch('http://localhost:9000/cpu')
+      .then(response => response.json())
+      .then(data => {
+        const level = Math.max(1, Math.min(99, Math.floor(data.usage)));
+        document.getElementById('cpu-level').textContent = level;
+      })
+      .catch(error => console.error('Error fetching CPU data:', error));
+  }
+  
+  // Update memory stats
+  function updateMemory() {
+    fetch('http://localhost:9000/memory')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('memory-used').textContent = Math.floor(data.used);
+        document.getElementById('memory-total').textContent = Math.floor(data.total);
+      })
+      .catch(error => console.error('Error fetching memory data:', error));
+  }
+  
+  // Update disk stats
+  function updateDisk() {
+    fetch('http://localhost:9000/disk')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('disk-used').textContent = Math.floor(data.used);
+        document.getElementById('disk-total').textContent = Math.floor(data.total);
+      })
+      .catch(error => console.error('Error fetching disk data:', error));
+  }
+  
+  // Update all stats every 5 seconds
+  setInterval(() => {
+    updateCpuLevel();
+    updateMemory();
+    updateDisk();
+  }, 5000);
+  
+  // Initial update
+  updateCpuLevel();
+  updateMemory();
+  updateDisk();
+</script>
+EOF
+    
+    # Gannon portrait
+    cat > "$WAYBAR_DIR/modules/gannon-portrait.html" << 'EOF'
+<div class="character-portrait">
+  <img src="~/.config/waybar/portraits/gannon.png" alt="Gannon" width="48" height="48"/>
+  <div class="character-info">
+    <div class="name">Gannon</div>
+    <div class="stats">
+      <div class="stat"><span class="label">LV</span> <span class="value" id="network-level">0</span></div>
+      <div class="stat"><span class="label">HP</span> <span class="value" id="temperature">0</span>/<span id="temperature-max">100</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  // Update network level (1-99 based on network activity)
+  function updateNetworkLevel() {
+    fetch('http://localhost:9000/network')
+      .then(response => response.json())
+      .then(data => {
+        // Calculate level based on network activity (simplified)
+        const level = Math.max(1, Math.min(99, Math.floor(data.activity * 100)));
+        document.getElementById('network-level').textContent = level;
+      })
+      .catch(error => console.error('Error fetching network data:', error));
+  }
+  
+  // Update temperature
+  function updateTemperature() {
+    fetch('http://localhost:9000/temperature')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('temperature').textContent = Math.floor(data.temperature);
+      })
+      .catch(error => console.error('Error fetching temperature data:', error));
+  }
+  
+  // Update all stats every 5 seconds
+  setInterval(() => {
+    updateNetworkLevel();
+    updateTemperature();
+  }, 5000);
+  
+  // Initial update
+  updateNetworkLevel();
+  updateTemperature();
+</script>
+EOF
+    
+    # Edgar portrait
+    cat > "$WAYBAR_DIR/modules/edgar-portrait.html" << 'EOF'
+<div class="character-portrait">
+  <img src="~/.config/waybar/portraits/edgar.png" alt="Edgar" width="48" height="48"/>
+  <div class="character-info">
+    <div class="name">Edgar</div>
+    <div class="stats">
+      <div class="stat"><span class="label">LV</span> <span class="value" id="workspace-level">0</span></div>
+      <div class="stat"><span class="label">HP</span> <span class="value" id="battery-level">0</span>/<span id="battery-max">100</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  // Update workspace level (based on active workspace)
+  function updateWorkspaceLevel() {
+    fetch('http://localhost:9000/workspace')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('workspace-level').textContent = data.active;
+      })
+      .catch(error => console.error('Error fetching workspace data:', error));
+  }
+  
+  // Update battery level
+  function updateBatteryLevel() {
+    fetch('http://localhost:9000/battery')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('battery-level').textContent = Math.floor(data.percentage);
+      })
+      .catch(error => console.error('Error fetching battery data:', error));
+  }
+  
+  // Update all stats every 5 seconds
+  setInterval(() => {
+    updateWorkspaceLevel();
+    updateBatteryLevel();
+  }, 5000);
+  
+  // Initial update
+  updateWorkspaceLevel();
+  updateBatteryLevel();
+</script>
+EOF
+    
+    # Update hyprland.conf to use the new waybar launch script
+    if [ -f "$HYPR_DIR/hyprland.conf" ]; then
+        echo -e "${YELLOW}Updating hyprland.conf to use the FF6-themed waybar...${NC}"
+        
+        # Check if exec-once for waybar already exists
+        if grep -q "exec-once = waybar" "$HYPR_DIR/hyprland.conf"; then
+            # Replace existing waybar exec line
+            sed -i 's|exec-once = waybar.*|exec-once = ~/.config/hypr/scripts/launch-waybar.sh|g' "$HYPR_DIR/hyprland.conf"
+        else
+            # Add waybar launch to exec-once section
+            if grep -q "# Autostart" "$HYPR_DIR/hyprland.conf"; then
+                # Add after Autostart comment
+                sed -i '/# Autostart/a exec-once = ~/.config/hypr/scripts/launch-waybar.sh' "$HYPR_DIR/hyprland.conf"
+            else
+                # Add to end of file
+                echo "exec-once = ~/.config/hypr/scripts/launch-waybar.sh" >> "$HYPR_DIR/hyprland.conf"
+            fi
+        fi
+    fi
+    
+    echo -e "${GREEN}FF6-themed waybar configuration installed successfully!${NC}"
 }
 
 # Detect distribution
@@ -794,9 +1131,8 @@ echo -e "${BLUE}Copying configuration files...${NC}"
 echo -e "${YELLOW}Copying Hyprland configuration files...${NC}"
 cp -r hypr/* "$HYPR_DIR/"
 
-# Copy Waybar configuration files
-echo -e "${YELLOW}Copying Waybar configuration files...${NC}"
-cp -r waybar/* "$WAYBAR_DIR/"
+# Install FF6-themed waybar configuration
+install_ff6_waybar
 
 # Copy Kitty configuration files
 echo -e "${YELLOW}Copying Kitty configuration files...${NC}"
@@ -873,9 +1209,11 @@ CRITICAL_FILES=(
     "$HYPR_DIR/hyprland.conf"
     "$HYPR_DIR/colors.conf"
     "$HYPR_DIR/animations.conf"
-    "$WAYBAR_DIR/config-top.jsonc"
-    "$WAYBAR_DIR/config-bottom.jsonc"
+    "$WAYBAR_DIR/config.jsonc"
     "$WAYBAR_DIR/style.css"
+    "$WAYBAR_DIR/modules/ff6-character-stats.jsonc"
+    "$WAYBAR_DIR/modules/ff6-menu-options.jsonc"
+    "$WAYBAR_DIR/modules/ff6-menu-drawer.jsonc"
     "$KITTY_DIR/kitty.conf"
     "$KITTY_DIR/ff_sprite.py"
 )

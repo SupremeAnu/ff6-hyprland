@@ -1,191 +1,290 @@
-/* FF6-themed Waybar Style
- * Part of the FF6-themed Hyprland configuration
- */
+/* FF6-themed Waybar Style - Enhanced Version */
+/* Based on the Final Fantasy VI menu system */
 
-/* FF6 Menu Colors */
-@define-color ff6_menu_blue #112855;
-@define-color ff6_menu_blue_dark #0A1A3A;
-@define-color ff6_menu_blue_light #3B7DFF;
-@define-color ff6_menu_border #3B7DFF;
-@define-color ff6_menu_text #FFFFFF;
-@define-color ff6_menu_highlight #FFD700;
-@define-color ff6_menu_shadow #000000;
-
-/* Global Styling */
 * {
-    font-family: "JetBrains Mono", "Victor Mono", monospace;
+    font-family: "JetBrains Mono Nerd Font", "Noto Sans", sans-serif;
     font-size: 14px;
-    color: @ff6_menu_text;
-}
-
-/* Waybar Background */
-#waybar {
-    background: @ff6_menu_blue;
-    border-bottom: 2px solid @ff6_menu_border;
+    font-weight: bold;
+    border: none;
     border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
 }
 
-#waybar.bottombar {
-    background: @ff6_menu_blue;
-    border-top: 2px solid @ff6_menu_border;
-    border-bottom: none;
+window#waybar {
+    background: linear-gradient(160deg, rgba(10, 26, 63, 0.95) 0%, rgba(26, 42, 95, 0.95) 50%, rgba(58, 74, 143, 0.95) 100%);
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-/* FF6 Menu Group */
-#group-ff6-menu {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 2px 8px;
+window#waybar.ff6-top-bar,
+window#waybar.ff6-middle-bar,
+window#waybar.ff6-bottom-bar,
+window#waybar.ff6-system-bar {
+    background: linear-gradient(160deg, rgba(10, 26, 63, 0.95) 0%, rgba(26, 42, 95, 0.95) 50%, rgba(58, 74, 143, 0.95) 100%);
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
+    background-repeat: repeat;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
 }
 
-#custom-menu, #custom-terminal, #custom-browser, 
-#custom-files, #custom-steam, #custom-theme-toggle {
-    padding: 0 8px;
+/* Character name styling */
+#custom-terra,
+#custom-gannon,
+#custom-edgar {
+    font-size: 16px;
+    color: #ffffff;
+    padding: 0 10px;
+    margin: 0 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Character stats styling */
+#custom-terra_lv,
+#custom-terra_hp,
+#custom-terra_mp,
+#custom-gannon_lv,
+#custom-gannon_hp,
+#custom-edgar_lv,
+#custom-edgar_hp {
+    color: #00ffff;
+    padding: 0 5px;
     margin: 0 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-#custom-menu:hover, #custom-terminal:hover, #custom-browser:hover, 
-#custom-files:hover, #custom-steam:hover, #custom-theme-toggle:hover {
-    color: @ff6_menu_highlight;
+/* Character class styling */
+#custom-magitek_elite,
+#custom-oracle,
+#custom-machinist {
+    font-size: 16px;
+    color: #ffffff;
+    padding: 0 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* System Monitors Group */
-#group-system-monitors {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 2px 8px;
-}
-
-#cpu, #memory, #temperature {
-    padding: 0 8px;
+/* Menu options styling */
+#custom-items,
+#custom-abilities,
+#custom-equip,
+#custom-relics,
+#custom-status,
+#custom-formation,
+#custom-config,
+#custom-quicksave,
+#custom-save,
+#custom-overworld,
+.ff6-menu-item {
+    color: #ffffff;
+    padding: 0 10px;
     margin: 0 2px;
+    transition: all 0.2s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* Power Group */
-#group-power {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 2px 8px;
+#custom-items:hover,
+#custom-abilities:hover,
+#custom-equip:hover,
+#custom-relics:hover,
+#custom-status:hover,
+#custom-formation:hover,
+#custom-config:hover,
+#custom-quicksave:hover,
+#custom-save:hover,
+#custom-overworld:hover,
+.ff6-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
-#custom-power {
-    color: #FF6B6B;
-    padding: 0 8px;
+/* System info styling */
+#custom-time,
+#custom-steps,
+#custom-gil {
+    color: #00ffff;
+    padding: 0 5px;
+    margin: 0 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* Workspaces */
+#clock,
+#custom-uptime,
+#custom-disk_free {
+    color: #ffffff;
+    padding: 0 5px;
+    margin: 0 10px 0 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* System metrics styling */
+#cpu,
+#memory,
+#disk,
+#network,
+#temperature,
+#battery,
+#hyprland-workspaces {
+    color: #ffffff;
+    padding: 0 5px;
+    margin: 0 10px 0 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Workspaces styling */
 #workspaces button {
-    background: @ff6_menu_blue_dark;
-    color: @ff6_menu_text;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
-    transition: all 0.3s ease;
-}
-
-#workspaces button.active {
-    background: @ff6_menu_blue_light;
-    color: @ff6_menu_highlight;
-    border-color: @ff6_menu_highlight;
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-    background: @ff6_menu_blue_light;
-    color: @ff6_menu_highlight;
-    border-color: @ff6_menu_highlight;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
-/* Clock */
-#clock {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+#workspaces button.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
 
-/* Window Title */
-#window {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+/* Tray styling */
+#tray {
+    padding: 0 10px;
+    margin-right: 5px;
 }
 
-/* Network, Bluetooth, Battery */
-#network, #bluetooth, #battery {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+#tray > .passive {
+    -gtk-icon-effect: dim;
 }
 
-/* Backlight, Pulseaudio */
-#backlight, #pulseaudio {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: rgba(255, 255, 0, 0.3);
+    border-radius: 4px;
 }
 
-/* Keyboard State, Idle Inhibitor */
-#keyboard-state, #idle_inhibitor {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+/* Battery styling */
+#battery.charging {
+    color: #00ff00;
 }
 
-/* Taskbar */
-#taskbar button {
-    background: @ff6_menu_blue_dark;
-    color: @ff6_menu_text;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
-    transition: all 0.3s ease;
+#battery.warning:not(.charging) {
+    color: #ffff00;
+    animation: pulse 1s infinite;
 }
 
-#taskbar button.active {
-    background: @ff6_menu_blue_light;
-    color: @ff6_menu_highlight;
-    border-color: @ff6_menu_highlight;
+#battery.critical:not(.charging) {
+    color: #ff0000;
+    animation: blink 1s infinite;
 }
 
-#taskbar button:hover {
-    background: @ff6_menu_blue_light;
-    color: @ff6_menu_highlight;
-    border-color: @ff6_menu_highlight;
+/* FF6 Menu Drawer styling */
+#group-ff6_menu_drawer {
+    background-color: rgba(10, 26, 63, 0.95);
+    border-radius: 0 8px 8px 0;
+    border-right: 2px solid #ffffff;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
 }
 
-/* Tray, Updater, Notify */
-#tray, #custom-updater, #group-notify {
-    background: @ff6_menu_blue_dark;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
-    margin: 4px;
-    padding: 0 8px;
+#custom-ff6_menu_icon {
+    font-size: 18px;
+    padding: 0 10px;
+    margin: 0 5px;
 }
 
-/* Tooltip */
+#custom-ff6_arch_logo {
+    font-size: 18px;
+    padding: 0 10px;
+    margin: 0 5px;
+    color: #1793d1; /* Arch Linux blue */
+}
+
+/* Character portrait styling */
+.character-portrait {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: rgba(10, 26, 63, 0.95);
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.character-portrait img {
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.character-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.character-info .name {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.character-info .stats {
+    display: flex;
+    flex-direction: column;
+}
+
+.character-info .stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.character-info .label {
+    color: #00ffff;
+    margin-right: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.character-info .value {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Animations */
+@keyframes blink {
+    to {
+        color: #ffffff;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Tooltip styling */
 tooltip {
-    background: @ff6_menu_blue;
-    border: 2px solid @ff6_menu_border;
-    border-radius: 6px;
+    background-color: rgba(10, 26, 63, 0.95);
+    border: 2px solid #ffffff;
+    border-radius: 8px;
 }
 
 tooltip label {
-    color: @ff6_menu_text;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px;
 }
