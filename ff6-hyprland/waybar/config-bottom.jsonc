@@ -1,75 +1,19 @@
 {
-    "layer": "top",
-    "position": "bottom",
-    "height": 30,
-    "margin-bottom": 6,
-    "margin-left": 8,
-    "margin-right": 8,
-    "spacing": 4,
-    "exclusive": true,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "reload_style_on_change": true,
-    
-    "modules-left": [
-        "hyprland/workspaces"
-    ],
-    
-    "modules-center": [
-        "hyprland/window"
-    ],
-    
-    "modules-right": [
-        "network",
-        "custom/updates"
-    ],
-    
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1",
-        "format-icons": {
-            "1": "Terra",
-            "2": "Locke",
-            "3": "Edgar",
-            "4": "Sabin",
-            "5": "Cyan",
-            "6": "Gau",
-            "7": "Celes",
-            "8": "Setzer",
-            "9": "Shadow",
-            "10": "Mog",
-            "urgent": "Kefka",
-            "active": "Active",
-            "default": "Party"
-        },
-        "sort-by-number": true,
-        "show-special": true,
-        "persistent-workspaces": {
-            "*": 5
-        }
-    },
-    
-    "hyprland/window": {
-        "format": "{}",
-        "max-length": 80,
-        "separate-outputs": true
-    },
-    
-    "network": {
-        "format-wifi": "Chocobo {essid}",
-        "format-ethernet": "Magitek {ipaddr}/{cidr}",
-        "format-disconnected": "No Signal",
-        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n {bandwidthUpBits} {bandwidthDownBits}",
-        "on-click": "nm-connection-editor"
-    },
-    
-    "custom/updates": {
-        "format": "Updates {}",
-        "exec": "~/.config/hypr/scripts/updates.sh",
-        "interval": 3600,
-        "on-click": "kitty -e ~/.config/hypr/scripts/update-system.sh",
-        "return-type": "json"
-    }
+  "include": [
+    "$HOME/.config/waybar/modules/workspaces.jsonc",
+    "$HOME/.config/waybar/modules/system-monitors.jsonc",
+    "$HOME/.config/waybar/modules/ff6-menu.jsonc"
+  ],
+  "name": "bottombar",
+  "layer": "top",
+  "position": "bottom",
+  "height": 30,
+  "exclusive": true,
+  "spacing": 2,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "reload_style_on_change": true,
+  "modules-left": ["hyprland/workspaces#ff6"],
+  "modules-center": ["wlr/taskbar"],
+  "modules-right": ["tray", "custom/updater", "group/notify"]
 }

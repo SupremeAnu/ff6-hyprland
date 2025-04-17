@@ -1,0 +1,355 @@
+.notification-row {
+  outline: none;
+  margin: 0 8px;
+  padding: 8px;
+  border-radius: 12px;
+  background-color: rgba(59, 125, 255, 0.9);
+  border: 2px solid rgba(17, 40, 85, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 200ms ease;
+}
+
+.notification-row:hover {
+  background-color: rgba(120, 170, 255, 0.9);
+}
+
+.notification {
+  padding: 8px;
+  border-radius: 8px;
+  margin: 6px 6px;
+  background-color: rgba(17, 40, 85, 0.7);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.notification-content {
+  background: transparent;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.close-button {
+  background: rgba(255, 107, 107, 0.8);
+  color: white;
+  text-shadow: none;
+  padding: 0;
+  border-radius: 100%;
+  margin-top: 10px;
+  margin-right: 10px;
+  box-shadow: none;
+  border: none;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.close-button:hover {
+  background: rgba(255, 107, 107, 1);
+  transition: all 0.15s ease-in-out;
+}
+
+.notification-default-action,
+.notification-action {
+  padding: 4px;
+  margin: 0;
+  border-radius: 8px;
+  background: rgba(59, 125, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  background: rgba(120, 170, 255, 0.9);
+}
+
+.notification-default-action {
+  border-radius: 8px;
+}
+
+/* When alternative actions are visible */
+.notification-default-action:not(:only-child) {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.notification-action {
+  border-radius: 0px;
+  border-top: none;
+  border-right: none;
+}
+
+/* add bottom border radius to last button */
+.notification-action:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.inline-reply {
+  margin-top: 8px;
+}
+
+.inline-reply-entry {
+  background: rgba(59, 125, 255, 0.8);
+  color: white;
+  caret-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.inline-reply-button {
+  margin-left: 4px;
+  background: rgba(59, 125, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+}
+
+.inline-reply-button:disabled {
+  background: rgba(59, 125, 255, 0.4);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.inline-reply-button:hover {
+  background: rgba(120, 170, 255, 0.9);
+}
+
+.body-image {
+  margin-top: 6px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.summary {
+  font-size: 16px;
+  font-weight: bold;
+  background: transparent;
+  color: white;
+  text-shadow: none;
+}
+
+.time {
+  font-size: 14px;
+  font-weight: bold;
+  background: transparent;
+  color: white;
+  text-shadow: none;
+  margin-right: 18px;
+}
+
+.body {
+  font-size: 14px;
+  font-weight: normal;
+  background: transparent;
+  color: white;
+  text-shadow: none;
+}
+
+/* FF6-themed Control Center */
+
+.control-center {
+  background: rgba(17, 40, 85, 0.95);
+  border: 2px solid rgba(59, 125, 255, 1);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  padding: 12px;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  opacity: 0.5;
+}
+
+.floating-notifications {
+  background: transparent;
+}
+
+.widget-title {
+  margin: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background: rgba(59, 125, 255, 0.8);
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.widget-title>button {
+  font-size: 14px;
+  color: white;
+  text-shadow: none;
+  background: rgba(255, 107, 107, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  margin: 0px 8px;
+  box-shadow: none;
+  padding: 4px 8px;
+}
+
+.widget-title>button:hover {
+  background: rgba(255, 107, 107, 1);
+}
+
+.widget-dnd {
+  margin: 8px;
+  font-size: 16px;
+  border-radius: 10px;
+  background: rgba(59, 125, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px;
+  color: white;
+}
+
+.widget-dnd>switch {
+  border-radius: 16px;
+  background: rgba(255, 107, 107, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+
+.widget-dnd>switch:checked {
+  background: rgba(87, 227, 137, 0.8);
+}
+
+.widget-dnd>switch slider {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.widget-label {
+  margin: 8px;
+}
+
+.widget-label>label {
+  font-size: 16px;
+  color: white;
+}
+
+.widget-mpris {
+  margin: 8px;
+  padding: 8px;
+  background: rgba(59, 125, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.widget-mpris-player {
+  padding: 8px;
+  margin: 8px;
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.widget-mpris-subtitle {
+  font-size: 14px;
+}
+
+.widget-buttons-grid {
+  margin: 8px;
+  padding: 8px;
+  background: rgba(59, 125, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.widget-buttons-grid>flowbox>flowboxchild>button {
+  margin: 4px;
+  background: rgba(17, 40, 85, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 20px;
+  padding: 8px;
+}
+
+.widget-buttons-grid>flowbox>flowboxchild>button:hover {
+  background: rgba(120, 170, 255, 0.9);
+}
+
+.widget-volume {
+  margin: 8px;
+  padding: 8px;
+  background: rgba(59, 125, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.widget-volume>box>label {
+  font-size: 16px;
+  margin: 0px 8px;
+}
+
+.widget-volume>box>scale>trough {
+  background: rgba(17, 40, 85, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.widget-volume>box>scale>trough>highlight {
+  background: rgba(255, 215, 0, 0.8);
+  border-radius: 8px;
+}
+
+.widget-backlight {
+  margin: 8px;
+  padding: 8px;
+  background: rgba(59, 125, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.widget-backlight>box>label {
+  font-size: 16px;
+  margin: 0px 8px;
+}
+
+.widget-backlight>box>scale>trough {
+  background: rgba(17, 40, 85, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.widget-backlight>box>scale>trough>highlight {
+  background: rgba(255, 215, 0, 0.8);
+  border-radius: 8px;
+}
+
+/* FF6-themed scrollbar */
+scrollbar {
+  background-color: rgba(17, 40, 85, 0.5);
+  border-radius: 8px;
+}
+
+scrollbar slider {
+  background-color: rgba(59, 125, 255, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+scrollbar slider:hover {
+  background-color: rgba(120, 170, 255, 0.9);
+}
+
+.control-center-list-placeholder {
+  background: rgba(17, 40, 85, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px;
+  color: white;
+  margin: 8px;
+}
+
+.control-center-list-placeholder>label {
+  font-size: 16px;
+  color: white;
+}

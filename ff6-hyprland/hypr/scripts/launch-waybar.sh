@@ -1,20 +1,24 @@
 #!/bin/bash
-# Script to properly launch waybar with correct environment variables
-# Part of FF6 Hyprland Configuration
+# Launch Waybar with proper configuration
+# Part of the FF6-themed Hyprland configuration
 
-# Kill any existing waybar instances
-killall waybar 2>/dev/null
+# Kill any running waybar instances
+killall -q waybar
 
-# Wait a moment to ensure previous instances are closed
-sleep 0.5
+# Wait until the processes have been shut down
+while pgrep -x waybar >/dev/null; do
+    sleep 1
+done
 
-# Launch waybar with proper environment
-export XDG_CURRENT_DESKTOP=Hyprland
-export XDG_SESSION_TYPE=wayland
-export XDG_SESSION_DESKTOP=Hyprland
+# Set environment variables for proper waybar styling
+export FF6_THEME_ENABLED=1
+export FF6_THEME_COLOR="#112855"
+export FF6_THEME_BORDER="#3B7DFF"
+export FF6_THEME_TEXT="#FFFFFF"
+export FF6_THEME_HIGHLIGHT="#FFD700"
 
-# Launch waybar in the background
-waybar &
+# Launch waybar with our configuration
+waybar -c ~/.config/waybar/config-top.jsonc -s ~/.config/waybar/style.css &
+waybar -c ~/.config/waybar/config-bottom.jsonc -s ~/.config/waybar/style.css &
 
-# Log the launch
-echo "Waybar launched at $(date)" >> ~/.config/hypr/waybar-launch.log
+echo "Waybar launched with FF6 theme!"

@@ -1,7 +1,3 @@
-# Swappy Configuration
-# Theme: Crimson Gradient
-# Created: April 2025
-
 [Default]
 save_dir=$HOME/Pictures/Screenshots
 save_filename_format=swappy-%Y%m%d-%H%M%S.png
@@ -9,6 +5,6 @@ show_panel=true
 line_size=5
 text_size=20
 text_font=JetBrains Mono Nerd Font
-paint_mode=brush
-early_exit=false
+paint_fg=#3B7DFF
+paint_bg=#112855
 fill_shape=false

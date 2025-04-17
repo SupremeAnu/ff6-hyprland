@@ -1,0 +1,116 @@
+/* FF6-themed AGS Style
+ * Part of the FF6-themed Hyprland configuration
+ * Based on JaKooLit's configuration with FF6 styling
+ */
+
+/* FF6 Menu Colors */
+@define-color ff6_menu_blue #112855;
+@define-color ff6_menu_blue_dark #0A1A3A;
+@define-color ff6_menu_blue_light #3B7DFF;
+@define-color ff6_menu_border #3B7DFF;
+@define-color ff6_menu_text #FFFFFF;
+@define-color ff6_menu_highlight #FFD700;
+@define-color ff6_menu_shadow #000000;
+
+/* Global Styling */
+* {
+    font-family: "JetBrains Mono", "Victor Mono", monospace;
+    font-size: 14px;
+    color: @ff6_menu_text;
+}
+
+/* Overview Window */
+.ff6-overview {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ff6-overview-container {
+    padding: 8px;
+    margin: 8px 0;
+}
+
+/* Workspace Indicators */
+.ff6-workspace-indicators {
+    background-color: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.ff6-workspace-indicator {
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 6px;
+    background-color: @ff6_menu_blue;
+    border: 2px solid @ff6_menu_border;
+    margin: 2px;
+    transition: all 200ms ease;
+}
+
+.ff6-workspace-indicator.active {
+    background-color: @ff6_menu_highlight;
+}
+
+.ff6-workspace-indicator.occupied {
+    border-color: @ff6_menu_highlight;
+}
+
+/* Workspaces Container */
+.ff6-workspaces-container {
+    background-color: @ff6_menu_blue;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+/* Individual Workspace */
+.ff6-workspace {
+    background-color: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 8px;
+}
+
+.ff6-workspace-header {
+    background-color: @ff6_menu_blue;
+    border-radius: 6px;
+    padding: 4px;
+    margin-bottom: 8px;
+}
+
+/* Window Thumbnails */
+.ff6-windows-container {
+    padding: 4px;
+}
+
+.ff6-window-thumbnail {
+    background-color: @ff6_menu_blue;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 8px;
+    transition: all 200ms ease;
+}
+
+.ff6-window-thumbnail:hover {
+    border-color: @ff6_menu_highlight;
+    background-color: @ff6_menu_blue_light;
+}
+
+/* Animations */
+@keyframes ff6-menu-open {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ff6-overview-container {
+    animation: ff6-menu-open 200ms ease;
+}

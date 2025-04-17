@@ -1,320 +1,191 @@
-/* Waybar Style Configuration
- * Theme: Final Fantasy VI Menu Style
- * Created: April 2025
+/* FF6-themed Waybar Style
+ * Part of the FF6-themed Hyprland configuration
  */
 
-/* Global styling */
+/* FF6 Menu Colors */
+@define-color ff6_menu_blue #112855;
+@define-color ff6_menu_blue_dark #0A1A3A;
+@define-color ff6_menu_blue_light #3B7DFF;
+@define-color ff6_menu_border #3B7DFF;
+@define-color ff6_menu_text #FFFFFF;
+@define-color ff6_menu_highlight #FFD700;
+@define-color ff6_menu_shadow #000000;
+
+/* Global Styling */
 * {
-    font-family: "JetBrains Mono Nerd Font", "Victor Mono", "Fantastique Sans Mono Nerd Font";
+    font-family: "JetBrains Mono", "Victor Mono", monospace;
     font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 0;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
+    color: @ff6_menu_text;
 }
 
-/* Both bars styling - FF6 blue gradient with white border */
+/* Waybar Background */
 #waybar {
-    background: rgba(16, 32, 128, 0.8);
-    color: #ffffff;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.7), rgba(16, 32, 128, 0.7));
+    background: @ff6_menu_blue;
+    border-bottom: 2px solid @ff6_menu_border;
+    border-radius: 0;
 }
 
-/* Top bar specific styling */
-#waybar.top {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+#waybar.bottombar {
+    background: @ff6_menu_blue;
+    border-top: 2px solid @ff6_menu_border;
+    border-bottom: none;
 }
 
-/* Bottom bar specific styling */
-#waybar.bottom {
-    border-top: 2px solid rgba(255, 255, 255, 0.9);
+/* FF6 Menu Group */
+#group-ff6-menu {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 2px 8px;
 }
 
-/* Modules styling */
-#custom-archlogo,
-#custom-launcher,
-#custom-terminal,
-#custom-filemanager,
-#custom-browser,
-#custom-theme-switcher,
-#custom-wallpaper-menu,
-#custom-power,
-#custom-updates,
-#clock,
-#cpu,
-#memory,
-#temperature,
-#battery,
-#pulseaudio,
-#network,
-#tray,
-#workspaces,
-#window,
-#taskbar {
-    background: transparent;
-    padding: 0 10px;
-    margin: 3px 0;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-/* Left modules styling */
-#custom-archlogo,
-#custom-launcher,
-#custom-terminal,
-#custom-filemanager,
-#custom-browser,
-#custom-theme-switcher,
-#custom-wallpaper-menu {
-    color: #ffffff;
-    margin-right: 5px;
-}
-
-#custom-archlogo {
-    color: #ffffff;
-    font-size: 18px;
-    margin-left: 5px;
-    padding-right: 5px;
-}
-
-#custom-terminal,
-#custom-filemanager,
-#custom-browser,
-#custom-theme-switcher,
-#custom-wallpaper-menu {
-    font-size: 16px;
-    opacity: 0.8;
-}
-
-/* Taskbar styling */
-#taskbar {
-    margin-left: 5px;
-}
-
-#taskbar button {
-    padding: 0 5px;
+#custom-menu, #custom-terminal, #custom-browser, 
+#custom-files, #custom-steam, #custom-theme-toggle {
+    padding: 0 8px;
     margin: 0 2px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    background: transparent;
 }
 
-#taskbar button.active {
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.8), rgba(32, 80, 192, 0.5));
-    border: 1px solid rgba(255, 255, 255, 0.7);
+#custom-menu:hover, #custom-terminal:hover, #custom-browser:hover, 
+#custom-files:hover, #custom-steam:hover, #custom-theme-toggle:hover {
+    color: @ff6_menu_highlight;
 }
 
-#taskbar button:hover {
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
-    border: 1px solid rgba(255, 255, 255, 0.5);
+/* System Monitors Group */
+#group-system-monitors {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 2px 8px;
 }
 
-/* Collapsible menu behavior */
-#custom-terminal,
-#custom-filemanager,
-#custom-browser,
-#custom-theme-switcher {
-    opacity: 0;
-    margin-left: -10px;
-    transition: all 0.3s ease;
+#cpu, #memory, #temperature {
+    padding: 0 8px;
+    margin: 0 2px;
 }
 
-#waybar:hover #custom-terminal,
-#waybar:hover #custom-filemanager,
-#waybar:hover #custom-browser,
-#waybar:hover #custom-theme-switcher {
-    opacity: 1;
-    margin-left: 0;
-}
-
-/* Right modules styling */
-#cpu,
-#memory,
-#temperature,
-#battery,
-#pulseaudio,
-#network,
-#custom-updates {
-    margin-left: 5px;
+/* Power Group */
+#group-power {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 2px 8px;
 }
 
 #custom-power {
-    color: #ffffff;
-    font-size: 16px;
-    margin-right: 5px;
+    color: #FF6B6B;
+    padding: 0 8px;
 }
 
-/* Center modules styling */
-#clock {
-    color: #ffffff;
-    font-size: 16px;
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.4), rgba(32, 80, 192, 0.4));
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 0 15px;
-}
-
-#window {
-    color: #ffffff;
-    font-size: 14px;
-}
-
-/* Workspaces styling */
-#workspaces {
-    margin-left: 5px;
-}
-
+/* Workspaces */
 #workspaces button {
-    color: #aaaaaa;
-    background: transparent;
-    border-radius: 10px;
-    min-width: 30px;
+    background: @ff6_menu_blue_dark;
+    color: @ff6_menu_text;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
     transition: all 0.3s ease;
-    padding: 0 5px;
 }
 
 #workspaces button.active {
-    color: #ffffff;
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.8), rgba(32, 80, 192, 0.5));
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: @ff6_menu_blue_light;
+    color: @ff6_menu_highlight;
+    border-color: @ff6_menu_highlight;
 }
 
 #workspaces button:hover {
-    color: #ffffff;
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: @ff6_menu_blue_light;
+    color: @ff6_menu_highlight;
+    border-color: @ff6_menu_highlight;
 }
 
-/* System modules styling */
-#cpu {
-    color: #ffffff;
+/* Clock */
+#clock {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#memory {
-    color: #ffffff;
+/* Window Title */
+#window {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#temperature {
-    color: #ffffff;
+/* Network, Bluetooth, Battery */
+#network, #bluetooth, #battery {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#temperature.critical {
-    color: #ff0000;
-    animation: blink 1s infinite;
+/* Backlight, Pulseaudio */
+#backlight, #pulseaudio {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#battery {
-    color: #ffffff;
+/* Keyboard State, Idle Inhibitor */
+#keyboard-state, #idle_inhibitor {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#battery.warning {
-    color: #ffaa00;
+/* Taskbar */
+#taskbar button {
+    background: @ff6_menu_blue_dark;
+    color: @ff6_menu_text;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
+    transition: all 0.3s ease;
 }
 
-#battery.critical {
-    color: #ff0000;
-    animation: blink 1s infinite;
+#taskbar button.active {
+    background: @ff6_menu_blue_light;
+    color: @ff6_menu_highlight;
+    border-color: @ff6_menu_highlight;
 }
 
-#pulseaudio {
-    color: #ffffff;
+#taskbar button:hover {
+    background: @ff6_menu_blue_light;
+    color: @ff6_menu_highlight;
+    border-color: @ff6_menu_highlight;
 }
 
-#network {
-    color: #ffffff;
+/* Tray, Updater, Notify */
+#tray, #custom-updater, #group-notify {
+    background: @ff6_menu_blue_dark;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 0 8px;
 }
 
-#custom-updates {
-    color: #ffffff;
+/* Tooltip */
+tooltip {
+    background: @ff6_menu_blue;
+    border: 2px solid @ff6_menu_border;
+    border-radius: 6px;
 }
 
-/* Tray styling */
-#tray {
-    margin-left: 5px;
-}
-
-#tray menu {
-    background: rgba(16, 32, 128, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-}
-
-/* Hover effects */
-#custom-archlogo:hover,
-#custom-launcher:hover,
-#custom-terminal:hover,
-#custom-filemanager:hover,
-#custom-browser:hover,
-#custom-theme-switcher:hover,
-#custom-wallpaper-menu:hover,
-#custom-power:hover,
-#custom-updates:hover {
-    background-image: linear-gradient(60deg, rgba(64, 128, 255, 0.5), rgba(32, 80, 192, 0.3));
-    border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-/* Responsive design for different resolutions */
-@media (min-width: 1920px) {
-    * {
-        font-size: 16px;
-    }
-    
-    #custom-archlogo {
-        font-size: 20px;
-    }
-    
-    #custom-terminal,
-    #custom-filemanager,
-    #custom-browser,
-    #custom-theme-switcher,
-    #custom-wallpaper-menu,
-    #custom-power {
-        font-size: 18px;
-    }
-    
-    #clock {
-        font-size: 18px;
-    }
-    
-    #waybar {
-        height: 36px;
-    }
-}
-
-@media (min-width: 3840px) {
-    * {
-        font-size: 20px;
-    }
-    
-    #custom-archlogo {
-        font-size: 24px;
-    }
-    
-    #custom-terminal,
-    #custom-filemanager,
-    #custom-browser,
-    #custom-theme-switcher,
-    #custom-wallpaper-menu,
-    #custom-power {
-        font-size: 22px;
-    }
-    
-    #clock {
-        font-size: 22px;
-    }
-    
-    #waybar {
-        height: 42px;
-    }
-}
-
-/* Animations */
-@keyframes blink {
-    to {
-        opacity: 0.5;
-    }
+tooltip label {
+    color: @ff6_menu_text;
 }
