@@ -1,44 +1,162 @@
 {
-  "include": [
-    "$HOME/.config/waybar/modules/standard.jsonc",
-    "$HOME/.config/waybar/modules/workspaces.jsonc",
-    "$HOME/.config/waybar/modules/custom.jsonc",
-    "$HOME/.config/waybar/modules/ff6-menu.jsonc"
-  ],
+  /* FF6-themed Waybar Configuration */
+  /* Based on JaKooLit's SummitSplit v2 layout and FF6 menu system */
+  
   "layer": "top",
   "position": "top",
-  "exclusive": true,
-  "passthrough": false,
-  "gtk-layer-shell": true,
   "height": 32,
-  "spacing": 2,
+  "spacing": 4,
   "margin-top": 6,
   "margin-left": 8,
   "margin-right": 8,
   
   "modules-left": [
+    "custom/ff6_menu_drawer",
     "hyprland/workspaces",
-    "custom/separator#blank_2",
-    "group/ff6-menu"
-  ],
-  
-  "modules-center": [
     "hyprland/window"
   ],
   
+  "modules-center": [
+    "custom/character_stats"
+  ],
+  
   "modules-right": [
-    "network",
-    "bluetooth",
-    "custom/separator#blank",
-    "battery",
-    "backlight",
-    "pulseaudio",
-    "custom/separator#blank",
-    "group/system-monitors",
-    "custom/separator#blank",
+    "custom/ff6_menu_options",
+    "custom/separator",
     "clock",
-    "tray",
-    "custom/separator#blank",
-    "group/power"
-  ]
+    "custom/power"
+  ],
+  
+  /* Character Stats Module - Shows system stats as FF6 character stats */
+  "custom/character_stats": {
+    "format": "<span color='#ffffff'>Terra</span> <span color='#00ffff'>LV</span> {} <span color='#00ffff'>HP</span> {}/{} <span color='#00ffff'>MP</span> {}/{} | <span color='#ffffff'>Gannon</span> <span color='#00ffff'>LV</span> {} <span color='#00ffff'>HP</span> {}/{} | <span color='#ffffff'>Edgar</span> <span color='#00ffff'>LV</span> {} <span color='#00ffff'>HP</span> {}/{}",
+    "exec": "$HOME/.config/hypr/scripts/ff6-system-stats.sh",
+    "return-type": "json",
+    "interval": 5,
+    "tooltip": true,
+    "tooltip-format": "CPU: {}%\nMemory: {}%\nDisk: {}%\nNetwork: {}\nBattery: {}%"
+  },
+  
+  /* FF6 Menu Options - Right side menu with game-like options */
+  "custom/ff6_menu_options": {
+    "format": "<span color='#ffffff'>Items</span> <span color='#ffffff'>Abilities</span> <span color='#ffffff'>Equip</span> <span color='#ffffff'>Relics</span> <span color='#ffffff'>Status</span> <span color='#ffffff'>Config</span>",
+    "tooltip": false,
+    "on-click": "rofi -show drun",
+    "on-click-right": "$HOME/.config/hypr/scripts/toggle-ff6-menu.sh"
+  },
+  
+  /* FF6 Menu Drawer - Left side collapsible menu */
+  "custom/ff6_menu_drawer": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "$HOME/.config/hypr/scripts/toggle-ff6-menu.sh",
+    "on-click-right": "steam"
+  },
+  
+  /* Workspaces with FF6 character names */
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "format-icons": {
+      "1": "Terra",
+      "2": "Locke",
+      "3": "Edgar",
+      "4": "Sabin",
+      "5": "Celes",
+      "6": "Cyan",
+      "7": "Setzer",
+      "8": "Shadow",
+      "9": "Gau",
+      "10": "Mog"
+    },
+    "on-click": "activate",
+    "sort-by-number": true,
+    "active-only": false,
+    "all-outputs": true
+  },
+  
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 50,
+    "separate-outputs": true
+  },
+  
+  "clock": {
+    "format": "<span color='#00ffff'>Time</span> {:%H:%M}",
+    "format-alt": "<span color='#00ffff'>Date</span> {:%Y-%m-%d}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+  
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": true,
+    "tooltip-format": "Power Menu",
+    "on-click": "$HOME/.config/hypr/scripts/logout.sh"
+  },
+  
+  "custom/separator": {
+    "format": "|",
+    "interval": "once",
+    "tooltip": false
+  },
+  
+  "tray": {
+    "icon-size": 18,
+    "spacing": 8
+  },
+  
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "Battery: {capacity}%\n{timeTo}"
+  },
+  
+  "network": {
+    "format-wifi": " {essid}",
+    "format-ethernet": " {ipaddr}",
+    "format-disconnected": "⚠ Disconnected",
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
+  },
+  
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": true,
+    "interval": 5
+  },
+  
+  "memory": {
+    "format": " {}%",
+    "tooltip-format": "Memory: {used:0.1f}GB/{total:0.1f}GB",
+    "interval": 5
+  },
+  
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": ["", "", ""]
+  },
+  
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""]
+  }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # FF6 Character Sprite Display for Kitty Terminal
-# Displays a random FF6 character sprite with time information
+# Displays FF6 character sprites with time information
 # Created: April 2025
 # Enhanced with inspiration from Pokemon color scripts
 
@@ -9,6 +9,8 @@ import time
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
+import subprocess
 
 # ANSI color codes for vibrant FF6 character colors
 # Using authentic character-specific colors
@@ -46,6 +48,32 @@ COLORS = {
     'LIGHTNING': '\033[38;2;255;255;0m', # Lightning magic
     'ESPER': '\033[38;2;138;43;226m',   # Esper/magic
 }
+
+# Check if kitty is available for image display
+def kitty_available():
+    return 'KITTY_WINDOW_ID' in os.environ
+
+# Function to display an image in kitty terminal
+def display_kitty_image(image_path):
+    if not kitty_available():
+        return False
+    
+    try:
+        # Get terminal dimensions
+        rows, columns = subprocess.check_output(['stty', 'size']).decode().split()
+        rows, columns = int(rows), int(columns)
+        
+        # Calculate image size (40% of terminal width)
+        width = int(columns * 0.4)
+        
+        # Use kitty's icat command to display the image
+        cmd = ['kitty', '+kitten', 'icat', '--align', 'center', '--scale-up', 
+               '--place', f'{width}x{width}@0x0', image_path]
+        subprocess.run(cmd, check=True)
+        return True
+    except Exception as e:
+        print(f"Error displaying image: {e}")
+        return False
 
 # Enhanced character sprites with more detail and color
 SPRITES = {
@@ -245,10 +273,18 @@ SPRITES = {
     ],
 }
 
-def get_random_sprite():
-    """Return a random character sprite"""
-    character = random.choice(list(SPRITES.keys()))
-    return SPRITES[character]
+# Character image paths
+CHARACTER_IMAGES = {
+    'TERRA': '/home/ubuntu/upload/terra.png',
+    'LOCKE': '/home/ubuntu/upload/locke.png',
+    'EDGAR': '/home/ubuntu/upload/edgar.png',
+    'CELES': '/home/ubuntu/upload/celes.png',
+    'SETZER': '/home/ubuntu/upload/setzer.png',
+}
+
+def get_random_character():
+    """Return a random character name"""
+    return random.choice(list(SPRITES.keys()))
 
 def get_time_info():
     """Get current time and date information"""
@@ -259,15 +295,23 @@ def get_time_info():
 
 def display_sprite_with_time():
     """Display a random sprite with time information"""
-    sprite = get_random_sprite()
+    character = get_random_character()
+    sprite = SPRITES[character]
     time_str, date_str = get_time_info()
     
     # Print some space before the sprite
     print("\n\n")
     
-    # Print the sprite
-    for line in sprite:
-        print(line)
+    # Try to display image if kitty is available and we have the image
+    image_displayed = False
+    if character in CHARACTER_IMAGES and os.path.exists(CHARACTER_IMAGES[character]):
+        image_displayed = display_kitty_image(CHARACTER_IMAGES[character])
+    
+    # If image display failed or not available, fall back to ASCII art
+    if not image_displayed:
+        # Print the sprite
+        for line in sprite:
+            print(line)
     
     # Print time and date
     print(f"\n{COLORS['TIME']}{COLORS['BOLD']}Time: {time_str}{COLORS['RESET']}")

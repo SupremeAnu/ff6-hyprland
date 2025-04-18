@@ -1,0 +1,35 @@
+# /* ---- 💫 FF6-Themed Hyprland Configuration 💫 ---- */  #
+# wallust configuration - for wallust version 3.0
+
+# How the image is parse, in order to get the colors:
+# full - resized - wal - thumb -  fastresize - kmeans
+backend = "kmeans"
+
+# What color space to use to produce and select the most prominent colors:
+# lab - labmixed - lch - lchmixed
+color_space = "labmixed"
+
+# FF6 color palette - using dark16 with modifications for FF6 blue theme
+palette = "dark16"
+
+# Difference between similar colors, used by the colorspace
+threshold = 11
+
+[templates]
+cava.template = 'colors-cava'
+cava.target = '~/.config/cava/config'
+
+hypr.template = 'colors-hyprland.conf'
+hypr.target = '~/.config/hypr/wallust/wallust-hyprland.conf'
+
+rofi.template = 'colors-rofi.rasi'
+rofi.target = '~/.config/rofi/wallust/colors-rofi.rasi'
+
+waybar.template = 'colors-waybar.css'
+waybar.target = '~/.config/waybar/wallust/colors-waybar.css'
+
+kitty.template = 'colors-kitty.conf'
+kitty.target = '~/.config/kitty/kitty-themes/01-Wallust.conf'
+
+swaync.template = 'colors-swaync.css'
+swaync.target = '~/.config/swaync/wallust/colors-wallust.css'

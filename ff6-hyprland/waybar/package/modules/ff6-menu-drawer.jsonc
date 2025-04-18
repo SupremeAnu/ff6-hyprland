@@ -1,0 +1,124 @@
+{
+    // FF6-themed menu drawer module for waybar
+    // This creates a collapsible menu in the top left that matches the FF6 menu style
+    
+    "group/ff6_menu_drawer": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "ff6-menu-item",
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "custom/ff6_menu_icon",
+            "custom/ff6_items",
+            "custom/ff6_abilities",
+            "custom/ff6_equip",
+            "custom/ff6_relics",
+            "custom/ff6_status",
+            "custom/ff6_formation",
+            "custom/ff6_config",
+            "custom/ff6_steam"
+        ]
+    },
+    
+    "custom/ff6_menu_icon": {
+        "format": "  ",
+        "tooltip": true,
+        "tooltip-format": "FF6 Menu",
+        "on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh"
+    },
+    
+    "custom/ff6_items": {
+        "format": "Items",
+        "tooltip": true,
+        "tooltip-format": "Application Launcher",
+        "on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_abilities": {
+        "format": "Abilities",
+        "tooltip": true,
+        "tooltip-format": "Switch Theme",
+        "on-click": "$HOME/.config/hypr/scripts/DarkLight.sh",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarStyles.sh",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_equip": {
+        "format": "Equip",
+        "tooltip": true,
+        "tooltip-format": "Audio Settings",
+        "on-click": "pavucontrol",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_relics": {
+        "format": "Relics",
+        "tooltip": true,
+        "tooltip-format": "Network Settings",
+        "on-click": "nm-connection-editor",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_status": {
+        "format": "Status",
+        "tooltip": true,
+        "tooltip-format": "System Monitor",
+        "on-click": "kitty -e htop",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_formation": {
+        "format": "Formation",
+        "tooltip": true,
+        "tooltip-format": "Workspace Layout",
+        "on-click": "hyprctl dispatch layoutmsg togglesplit",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_config": {
+        "format": "Config",
+        "tooltip": true,
+        "tooltip-format": "Settings",
+        "on-click": "nemo",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_steam": {
+        "format": "Steam",
+        "tooltip": true,
+        "tooltip-format": "Launch Steam",
+        "on-click": "steam",
+        "class": "ff6-menu-item"
+    },
+    
+    "custom/ff6_quicksave": {
+        "format": "Quicksave",
+        "tooltip": true,
+        "tooltip-format": "Lock Screen",
+        "on-click": "$HOME/.config/hypr/scripts/LockScreen.sh"
+    },
+    
+    "custom/ff6_save": {
+        "format": "Save",
+        "tooltip": true,
+        "tooltip-format": "Logout",
+        "on-click": "hyprctl dispatch exit"
+    },
+    
+    "custom/ff6_overworld": {
+        "format": "Overworld",
+        "tooltip": true,
+        "tooltip-format": "Show All Workspaces",
+        "on-click": "hyprctl dispatch workspace 1"
+    },
+    
+    "custom/ff6_arch_logo": {
+        "format": " ",
+        "tooltip": false,
+        "on-click": "$HOME/.config/hypr/scripts/WaybarLayout.sh"
+    }
+}

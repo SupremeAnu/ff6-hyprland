@@ -1,8 +1,7 @@
-/* ---- 💫 FF6-Themed Hyprland Configuration 💫 ---- */
-/* Based on JaKooLit's rofi configuration */
+/* ---- 💫 FF6-Themed Hyprland Configuration - Rofi Fix 💫 ---- */
 
 /* Global Configuration Fonts */
-@import "~/.config/rofi/shared-fonts.rasi"
+@import "shared-fonts.rasi"
 
-/* Main theme in ~/.config/rofi/themes */
-@theme "~/.config/rofi/themes/ff6-menu.rasi"
+/* Main theme in themes directory */
+@theme "themes/ff6-menu.rasi"
